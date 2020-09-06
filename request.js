@@ -16,7 +16,7 @@ function request(servurl, header) {
       header = {};
     }
 
-    header["Content-Type"] = "application/json";
+    // header["Content-Type"] = "application/json";
     // header["Content-Length"] = 0;
     // header["User-Agent"] =
     //   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36";
