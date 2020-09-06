@@ -1,0 +1,25 @@
+{
+  "name": "tradingdata2",
+  "version": "0.1.2",
+  "description": "",
+  "main": "bin/start.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhs007/tradingdata2.git"
+  },
+  "keywords": [
+    "bitmex"
+  ],
+  "author": "zerrozhao@gmail.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/zhs007/tradingdata2/issues"
+  },
+  "homepage": "https://github.com/zhs007/tradingdata2#readme",
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
+}
