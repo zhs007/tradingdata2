@@ -1,4 +1,4 @@
-const { requestEx } = require("../../request");
+const { request, requestEx } = require("../../request");
 const { awaitWrap } = require("../../utils");
 
 const API_URL = "https://www.bitmex.com/api/v1";
@@ -9,7 +9,7 @@ const API_URL = "https://www.bitmex.com/api/v1";
  * @return {Promise} Promise - then(trades) catch(err)
  */
 function getBucketedTrades(params) {
-  return requestEx(API_URL + "/trade/bucketed", {}, params);
+  return request(API_URL + "/trade/bucketed", {}, params);
 }
 
 exports.getBucketedTrades = getBucketedTrades;
