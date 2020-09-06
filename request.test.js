@@ -1,7 +1,8 @@
-const http = require('http');
-const {request} = require('./request');
+const http = require("http");
+const https = require("https");
+const { request } = require("./request");
 
-jest.mock('http', () => ({
+jest.mock("http", () => ({
   get: jest.fn().mockImplementation((url, options, callback) => {
     let ondata = undefined;
     let onend = undefined;
@@ -9,36 +10,110 @@ jest.mock('http', () => ({
     callback({
       statusCode: 200,
       on: (event, cb) => {
-        if (event == 'data') {
+        if (event == "data") {
           ondata = cb;
         }
 
-        if (event == 'end') {
+        if (event == "end") {
           onend = cb;
         }
       },
     });
 
-    ondata('[123]');
+    ondata("[123]");
     onend();
 
-    return {on: () => { }};
+    return { on: () => {} };
+  }),
+  request: jest.fn().mockImplementation((options, callback) => {
+    let ondata = undefined;
+    let onend = undefined;
+
+    callback({
+      statusCode: 200,
+      on: (event, cb) => {
+        if (event == "data") {
+          ondata = cb;
+        }
+
+        if (event == "end") {
+          onend = cb;
+        }
+      },
+    });
+
+    ondata("[123]");
+    onend();
+
+    return { on: () => {} };
   }),
 }));
 
-test('http.get', async () => {
-  http.get('', undefined, (res) => {
-    expect(res.statusCode).toEqual(200);
+jest.mock("https", () => ({
+  get: jest.fn().mockImplementation((url, options, callback) => {
+    let ondata = undefined;
+    let onend = undefined;
 
-    res.on('data', (data) => {
-      expect(data).toEqual('[123]');
+    callback({
+      statusCode: 200,
+      on: (event, cb) => {
+        if (event == "data") {
+          ondata = cb;
+        }
+
+        if (event == "end") {
+          onend = cb;
+        }
+      },
     });
 
-    res.on('end', () => { });
+    ondata("[123]");
+    onend();
+
+    return { on: () => {} };
+  }),
+  request: jest.fn().mockImplementation((options, callback) => {
+    let ondata = undefined;
+    let onend = undefined;
+
+    callback({
+      statusCode: 200,
+      on: (event, cb) => {
+        if (event == "data") {
+          ondata = cb;
+        }
+
+        if (event == "end") {
+          onend = cb;
+        }
+      },
+    });
+
+    ondata("[123]");
+    onend();
+
+    return { on: () => {} };
+  }),
+}));
+
+test("http.get", async () => {
+  http.get("", undefined, (res) => {
+    expect(res.statusCode).toEqual(200);
+
+    res.on("data", (data) => {
+      expect(data).toEqual("[123]");
+    });
+
+    res.on("end", () => {});
   });
 });
 
-test('request', async () => {
-  const ret = await request('http://127.0.0.1:8080');
+test("request", async () => {
+  const ret = await request("http://127.0.0.1:8080");
+  expect(ret[0]).toEqual(123);
+});
+
+test("request https", async () => {
+  const ret = await request("https://127.0.0.1:8080");
   expect(ret[0]).toEqual(123);
 });

@@ -17,10 +17,14 @@ function request(servurl, header) {
     }
 
     header["Content-Type"] = "application/json";
-    header["Content-Length"] = 0;
-    urldata["rejectUnauthorized"] = false;
+    // header["Content-Length"] = 0;
+    // header["User-Agent"] =
+    //   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36";
 
-    urldata.header = header;
+    // urldata.rejectUnauthorized = false;
+    urldata.headers = header;
+    urldata.method = "GET";
+    urldata.port = 443;
 
     let funcCallback = (res) => {
       const { statusCode } = res;
@@ -46,18 +50,38 @@ function request(servurl, header) {
     };
 
     if (urldata.protocol == "https:") {
-      const req = https.request(urldata, funcCallback).on("error", (err) => {
-        reject(err);
-      });
+      const req = https
+        .request(
+          {
+            hostname: urldata.hostname,
+            port: 443,
+            path: urldata.path,
+            method: "GET",
+          },
+          funcCallback
+        )
+        .on("error", (err) => {
+          reject(err);
+        });
 
-      req.write("");
+      // req.write("");
       req.end();
     } else {
-      const req = http.request(urldata, funcCallback).on("error", (err) => {
-        reject(err);
-      });
+      const req = http
+        .request(
+          {
+            hostname: urldata.hostname,
+            port: 80,
+            path: urldata.path,
+            method: "GET",
+          },
+          funcCallback
+        )
+        .on("error", (err) => {
+          reject(err);
+        });
 
-      req.write("");
+      // req.write("");
       req.end();
     }
   });
