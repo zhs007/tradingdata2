@@ -14,7 +14,7 @@ const axios = require("axios");
 function request(servurl, headers, params) {
   return new Promise((resolve, reject) => {
     axios
-      .get(url, { headers: headers, params: params })
+      .get(servurl, { headers: headers, params: params })
       .then((response) => {
         // handle success
         // console.log(response);
@@ -100,7 +100,7 @@ function request(servurl, headers, params) {
 function requestEx(servurl, headers, params) {
   return new Promise((resolve, reject) => {
     axios
-      .get(url, { headers: headers, params: params })
+      .get(servurl, { headers: headers, params: params })
       .then((response) => {
         const ret = parseJSON(response);
         if (ret == undefined) {

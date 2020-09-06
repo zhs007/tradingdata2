@@ -99,6 +99,9 @@ jest.mock("https", () => ({
 
 jest.mock("axios", () => ({
   get: jest.fn().mockImplementation((url, options) => {
+    expect(typeof url).toEqual("string");
+    expect(typeof options).toEqual("object");
+
     return new Promise((resolve, reject) => {
       resolve("[123]");
     });
