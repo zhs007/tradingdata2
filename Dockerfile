@@ -1,12 +1,16 @@
-FROM node:12
+FROM node:lts-slim
 
-COPY ./package*.json /app/tradingdata2/
+LABEL zerro "zerrozhao@gmail.com"
 
-RUN cd /app/tradingdata2 \
-    && npm i -d
-
-COPY . /app/tradingdata2
+RUN apt-get update -y \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app/tradingdata2
+
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm i -dd
+
+COPY ./ ./
 
 CMD ["node", "./bin/bitmex.js"]

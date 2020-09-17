@@ -1,5 +1,6 @@
-const {RequestUpdCandles, Candles} = require('./pb/tradingdb2_pb');
+const {RequestUpdCandles, RequestGetCandles} = require('./pb/tradingdb2_pb');
 const {TradingDB2ServiceClient} = require('./pb/tradingdb2_grpc_pb');
+const {newCandles} = require('./pb.utils');
 
 const grpc = require('grpc');
 
@@ -32,12 +33,30 @@ class TradingDB2Client {
    */
   updCandles(market, symbol, tag, caldles, callback) {
     const req = new RequestUpdCandles();
-    const pbCandles = new Candles();
+    const pbCandles = newCandles(market, symbol, tag, caldles);
 
     req.setToken(this.token);
     req.setCandles(pbCandles);
 
     this.client.updCandles(req, callback);
+  }
+
+  /**
+   * getCandles - getCandles
+   * @param {string} market - market
+   * @param {string} symbol - symbol
+   * @param {string} tag - tag
+   * @param {function} callback - callback(err, res)
+   */
+  getCandles(market, symbol, tag, callback) {
+    const req = new RequestGetCandles();
+
+    req.setToken(this.token);
+    req.setMarket(marker);
+    req.setSymbol(symbol);
+    req.setTag(tag);
+
+    this.client.getCandles(req, callback);
   }
 }
 
