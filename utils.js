@@ -5,8 +5,8 @@
  */
 async function awaitWrap(promise) {
   return promise
-    .then((data) => [undefined, data])
-    .catch((err) => [err, undefined]);
+      .then((data) => [undefined, data])
+      .catch((err) => [err, undefined]);
 }
 
 /**
@@ -31,18 +31,18 @@ function parseJSON(str) {
  * @return {string} newurl - new url string
  */
 function buildQueryString(url, params) {
-  let str = "";
-  for (let key of Object.keys(params)) {
+  let str = '';
+  for (const key of Object.keys(params)) {
     if (str.length > 0) {
-      str += "&";
+      str += '&';
     }
 
     str += key;
-    str += "=";
+    str += '=';
     str += params[key];
   }
 
-  return encodeURI(url + "?" + str);
+  return encodeURI(url + '?' + str);
 }
 
 exports.awaitWrap = awaitWrap;

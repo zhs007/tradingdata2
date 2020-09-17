@@ -1,9 +1,12 @@
-const http = require("http");
-const https = require("https");
-const axios = require("axios");
-const { request } = require("./request");
+const http = require('http');
+const https = require('https');
+const axios = require('axios');
+const {request} = require('./request');
 
-jest.mock("http", () => ({
+https;
+axios;
+
+jest.mock('http', () => ({
   get: jest.fn().mockImplementation((url, options, callback) => {
     let ondata = undefined;
     let onend = undefined;
@@ -11,20 +14,20 @@ jest.mock("http", () => ({
     callback({
       statusCode: 200,
       on: (event, cb) => {
-        if (event == "data") {
+        if (event == 'data') {
           ondata = cb;
         }
 
-        if (event == "end") {
+        if (event == 'end') {
           onend = cb;
         }
       },
     });
 
-    ondata("[123]");
+    ondata('[123]');
     onend();
 
-    return { on: () => {} };
+    return {on: () => {}};
   }),
   request: jest.fn().mockImplementation((options, callback) => {
     let ondata = undefined;
@@ -33,24 +36,24 @@ jest.mock("http", () => ({
     callback({
       statusCode: 200,
       on: (event, cb) => {
-        if (event == "data") {
+        if (event == 'data') {
           ondata = cb;
         }
 
-        if (event == "end") {
+        if (event == 'end') {
           onend = cb;
         }
       },
     });
 
-    ondata("[123]");
+    ondata('[123]');
     onend();
 
-    return { on: () => {} };
+    return {on: () => {}};
   }),
 }));
 
-jest.mock("https", () => ({
+jest.mock('https', () => ({
   get: jest.fn().mockImplementation((url, options, callback) => {
     let ondata = undefined;
     let onend = undefined;
@@ -58,20 +61,20 @@ jest.mock("https", () => ({
     callback({
       statusCode: 200,
       on: (event, cb) => {
-        if (event == "data") {
+        if (event == 'data') {
           ondata = cb;
         }
 
-        if (event == "end") {
+        if (event == 'end') {
           onend = cb;
         }
       },
     });
 
-    ondata("[123]");
+    ondata('[123]');
     onend();
 
-    return { on: () => {} };
+    return {on: () => {}};
   }),
   request: jest.fn().mockImplementation((options, callback) => {
     let ondata = undefined;
@@ -80,62 +83,52 @@ jest.mock("https", () => ({
     callback({
       statusCode: 200,
       on: (event, cb) => {
-        if (event == "data") {
+        if (event == 'data') {
           ondata = cb;
         }
 
-        if (event == "end") {
+        if (event == 'end') {
           onend = cb;
         }
       },
     });
 
-    ondata("[123]");
+    ondata('[123]');
     onend();
 
-    return { on: () => {} };
+    return {on: () => {}};
   }),
 }));
 
-jest.mock("axios", () => ({
+jest.mock('axios', () => ({
   get: jest.fn().mockImplementation((url, options) => {
-    expect(typeof url).toEqual("string");
-    expect(typeof options).toEqual("object");
+    expect(typeof url).toEqual('string');
+    expect(typeof options).toEqual('object');
 
     return new Promise((resolve, reject) => {
-      resolve({ data: [123], status: 200 });
+      resolve({data: [123], status: 200});
     });
   }),
 }));
 
-test("http.get", async () => {
-  http.get("", undefined, (res) => {
+test('http.get', async () => {
+  http.get('', undefined, (res) => {
     expect(res.statusCode).toEqual(200);
 
-    res.on("data", (data) => {
-      expect(data).toEqual("[123]");
+    res.on('data', (data) => {
+      expect(data).toEqual('[123]');
     });
 
-    res.on("end", () => {});
+    res.on('end', () => {});
   });
 });
 
-test("request", async () => {
-  const ret = await request("http://127.0.0.1:8080");
+test('request', async () => {
+  const ret = await request('http://127.0.0.1:8080');
   expect(ret.data[0]).toEqual(123);
 });
 
-test("request https", async () => {
-  const ret = await request("https://127.0.0.1:8080");
+test('request https', async () => {
+  const ret = await request('https://127.0.0.1:8080');
   expect(ret.data[0]).toEqual(123);
 });
-
-// test("requestEx", async () => {
-//   const ret = await requestEx("http://127.0.0.1:8080");
-//   expect(ret[0]).toEqual(123);
-// });
-
-// test("requestEx https", async () => {
-//   const ret = await requestEx("https://127.0.0.1:8080");
-//   expect(ret[0]).toEqual(123);
-// });

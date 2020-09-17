@@ -1,10 +1,11 @@
 {
   "name": "tradingdata2",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "",
   "main": "bin/start.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "eslint": "eslint"
   },
   "repository": {
     "type": "git",

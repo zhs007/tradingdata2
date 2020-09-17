@@ -1,18 +1,20 @@
-const axios = require("axios");
-const { getBucketedTrades } = require("./utils");
-const { awaitWrap } = require("../../utils");
+const axios = require('axios');
+const {getBucketedTrades} = require('./utils');
+const {awaitWrap} = require('../../utils');
 
-jest.mock("axios", () => ({
+axios;
+
+jest.mock('axios', () => ({
   get: jest.fn().mockImplementation((url, options) => {
-    expect(typeof url).toEqual("string");
-    expect(typeof options).toEqual("object");
+    expect(typeof url).toEqual('string');
+    expect(typeof options).toEqual('object');
 
     return new Promise((resolve, reject) => {
       resolve({
         data: [
           {
-            timestamp: "2020-01-01T00:00:00.000Z",
-            symbol: "XBTUSD",
+            timestamp: '2020-01-01T00:00:00.000Z',
+            symbol: 'XBTUSD',
             open: 7163,
             high: 7163,
             low: 7162.5,
@@ -26,8 +28,8 @@ jest.mock("axios", () => ({
             foreignNotional: 96868,
           },
           {
-            timestamp: "2020-01-01T00:01:00.000Z",
-            symbol: "XBTUSD",
+            timestamp: '2020-01-01T00:01:00.000Z',
+            symbol: 'XBTUSD',
             open: 7163,
             high: 7163,
             low: 7156,
@@ -41,8 +43,8 @@ jest.mock("axios", () => ({
             foreignNotional: 2237930,
           },
           {
-            timestamp: "2020-01-01T00:02:00.000Z",
-            symbol: "XBTUSD",
+            timestamp: '2020-01-01T00:02:00.000Z',
+            symbol: 'XBTUSD',
             open: 7156,
             high: 7156.5,
             low: 7156,
@@ -62,10 +64,10 @@ jest.mock("axios", () => ({
   }),
 }));
 
-let trades = [
+const trades = [
   {
-    timestamp: "2020-01-01T00:00:00.000Z",
-    symbol: "XBTUSD",
+    timestamp: '2020-01-01T00:00:00.000Z',
+    symbol: 'XBTUSD',
     open: 7163,
     high: 7163,
     low: 7162.5,
@@ -79,8 +81,8 @@ let trades = [
     foreignNotional: 96868,
   },
   {
-    timestamp: "2020-01-01T00:01:00.000Z",
-    symbol: "XBTUSD",
+    timestamp: '2020-01-01T00:01:00.000Z',
+    symbol: 'XBTUSD',
     open: 7163,
     high: 7163,
     low: 7156,
@@ -94,8 +96,8 @@ let trades = [
     foreignNotional: 2237930,
   },
   {
-    timestamp: "2020-01-01T00:02:00.000Z",
-    symbol: "XBTUSD",
+    timestamp: '2020-01-01T00:02:00.000Z',
+    symbol: 'XBTUSD',
     open: 7156,
     high: 7156.5,
     low: 7156,
@@ -110,18 +112,18 @@ let trades = [
   },
 ];
 
-test("getBucketedTrades", async () => {
-  let [err, ret] = await awaitWrap(
-    getBucketedTrades({
-      binSize: "1m",
-      partial: false,
-      symbol: "XBT",
-      count: 3,
-      start: 0,
-      reverse: false,
-      startTime: "2020-01-01T00:00:00.000Z",
-      endTime: "2020-01-02T00:00:00.000Z",
-    })
+test('getBucketedTrades', async () => {
+  const [err, ret] = await awaitWrap(
+      getBucketedTrades({
+        binSize: '1m',
+        partial: false,
+        symbol: 'XBT',
+        count: 3,
+        start: 0,
+        reverse: false,
+        startTime: '2020-01-01T00:00:00.000Z',
+        endTime: '2020-01-02T00:00:00.000Z',
+      }),
   );
   expect(err).toEqual(undefined);
   expect(ret.status).toEqual(200);

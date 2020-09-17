@@ -1,7 +1,7 @@
-const { request, requestEx } = require("../../request");
-const { awaitWrap } = require("../../utils");
+const {request} = require('../../request');
+// const {awaitWrap} = require('../../utils');
 
-const API_URL = "https://www.bitmex.com/api/v1";
+const API_URL = 'https://www.bitmex.com/api/v1';
 
 /**
  * getBucketedTrades - Get previous trades in time buckets
@@ -10,9 +10,9 @@ const API_URL = "https://www.bitmex.com/api/v1";
  */
 function getBucketedTrades(params) {
   return request(
-    API_URL + "/trade/bucketed",
-    { Accept: "application/json" },
-    params
+      API_URL + '/trade/bucketed',
+      {Accept: 'application/json'},
+      params,
   );
 }
 

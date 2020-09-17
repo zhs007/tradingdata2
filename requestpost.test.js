@@ -26,11 +26,15 @@ jest.mock('http', () => ({
     ondata('[123]');
     onend();
 
-    return {on: () => { }};
+    return {on: () => {}};
   }),
 }));
 
 test('requestPost', async () => {
-  const ret = await requestPost('http://127.0.0.1:2004/v2/games/936207324/validate', undefined, {command: 'SPIN'});
+  const ret = await requestPost(
+      'http://127.0.0.1:2004/v2/games/936207324/validate',
+      undefined,
+      {command: 'SPIN'},
+  );
   expect(ret[0]).toEqual(123);
 });

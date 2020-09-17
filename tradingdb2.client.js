@@ -1,7 +1,7 @@
-const messages = require("./pb/tradingdb2_pb");
-const services = require("./pb/tradingdb2_grpc_pb");
+const {RequestUpdCandles, Candles} = require('./pb/tradingdb2_pb');
+const {TradingDB2ServiceClient} = require('./pb/tradingdb2_grpc_pb');
 
-const grpc = require("grpc");
+const grpc = require('grpc');
 
 /**
  * TradingDB2Client - tradingdb2 client
@@ -14,9 +14,9 @@ class TradingDB2Client {
    * @param {string} token - token
    */
   constructor(servaddr, token) {
-    this.client = new services.TradingDB2ServiceClient(
-      "localhost:50051",
-      grpc.credentials.createInsecure()
+    this.client = new TradingDB2ServiceClient(
+        servaddr,
+        grpc.credentials.createInsecure(),
     );
 
     this.token = token;
@@ -31,8 +31,8 @@ class TradingDB2Client {
    * @param {function} callback - callback(err, res)
    */
   updCandles(market, symbol, tag, caldles, callback) {
-    let req = new messages.RequestUpdCandles();
-    let pbCandles = new messages.Candles();
+    const req = new RequestUpdCandles();
+    const pbCandles = new Candles();
 
     req.setToken(this.token);
     req.setCandles(pbCandles);
