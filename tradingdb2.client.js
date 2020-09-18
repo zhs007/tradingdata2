@@ -1,6 +1,6 @@
-const { RequestUpdCandles, RequestGetCandles } = require('./pb/tradingdb2_pb');
-const { TradingDB2ServiceClient } = require('./pb/tradingdb2_grpc_pb');
-const { newCandles, batchCandles } = require('./pb.utils');
+const {RequestUpdCandles, RequestGetCandles} = require('./pb/tradingdb2_pb');
+const {TradingDB2ServiceClient} = require('./pb/tradingdb2_grpc_pb');
+const {batchCandles, callSend, pbCandle2Cancle} = require('./pb.utils');
 
 const grpc = require('grpc');
 
@@ -16,8 +16,8 @@ class TradingDB2Client {
    */
   constructor(servaddr, token) {
     this.client = new TradingDB2ServiceClient(
-      servaddr,
-      grpc.credentials.createInsecure()
+        servaddr,
+        grpc.credentials.createInsecure(),
     );
 
     this.token = token;
@@ -30,20 +30,33 @@ class TradingDB2Client {
    * @param {string} tag - tag
    * @param {Array} candles - candles
    * @param {int} batchNums - batchNums
-   * @param {function} callback - callback(err, res)
-   * @return {error} err - error
+   * @return {Array} ret - [error, pb.ReplyUpdCandles]
    */
-  updCandles(market, symbol, tag, candles, batchNums, callback) {
-    let call = this.client.updCandles(callback);
+  async updCandles(market, symbol, tag, candles, batchNums) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const call = this.client.updCandles((err, res) => {
+          resolve([err, res]);
+        });
 
-    let err = batchCandles(candles, batchNums, (pbCandles) => {
-      return call.write(pbCandles);
+        await batchCandles(candles, batchNums, async (pbCandles) => {
+          const req = new RequestUpdCandles();
+
+          pbCandles.setMarket(market);
+          pbCandles.setSymbol(symbol);
+          pbCandles.setTag(tag);
+
+          req.setToken(this.token);
+          req.setCandles(pbCandles);
+
+          await callSend(call, req);
+        });
+
+        call.end();
+      } catch (err) {
+        resolve([err, undefined]);
+      }
     });
-    if (err) {
-      return err;
-    }
-
-    return call.end();
   }
 
   /**
@@ -51,17 +64,35 @@ class TradingDB2Client {
    * @param {string} market - market
    * @param {string} symbol - symbol
    * @param {string} tag - tag
-   * @param {function} callback - callback(err, res)
+   * @return {Array} ret - [error, candles]
    */
-  getCandles(market, symbol, tag, callback) {
-    const req = new RequestGetCandles();
+  getCandles(market, symbol, tag) {
+    return new Promise((resolve, reject) => {
+      try {
+        const req = new RequestGetCandles();
 
-    req.setToken(this.token);
-    req.setMarket(marker);
-    req.setSymbol(symbol);
-    req.setTag(tag);
+        req.setToken(this.token);
+        req.setMarket(market);
+        req.setSymbol(symbol);
+        req.setTag(tag);
 
-    this.client.getCandles(req, callback);
+        const candles = [];
+
+        const call = this.client.getCandles(req);
+        call.on('data', (req) => {
+          const lst = req.getCandles().getCandlesList();
+
+          for (let i = 0; i < lst.length; ++i) {
+            candles.push(pbCandle2Cancle(lst[i]));
+          }
+        });
+        call.on('end', () => {
+          resolve([undefined, candles]);
+        });
+      } catch (err) {
+        resolve([err, undefined]);
+      }
+    });
   }
 }
 

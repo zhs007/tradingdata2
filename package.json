@@ -1,6 +1,6 @@
 {
   "name": "tradingdata2",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "",
   "main": "bin/start.js",
   "scripts": {
@@ -23,9 +23,11 @@
   "devDependencies": {
     "eslint": "^7.9.0",
     "eslint-config-google": "^0.14.0",
+    "grpc-mock": "^0.7.0",
     "jest": "^26.4.2"
   },
   "dependencies": {
+    "async": "^3.2.0",
     "axios": "^0.20.0",
     "google-protobuf": "^3.13.0",
     "grpc": "^1.24.3"

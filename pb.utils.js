@@ -1,4 +1,4 @@
-const { Candle, Candles } = require('./pb/tradingdb2_pb');
+const {Candle, Candles} = require('./pb/tradingdb2_pb');
 
 /**
  * newCandle - new pb.Candle
@@ -8,32 +8,32 @@ const { Candle, Candles } = require('./pb/tradingdb2_pb');
 function newCandle(candle) {
   const pbCandle = new Candle();
 
-  if (caldle.ts) {
-    cc.setTs(caldle.ts);
+  if (candle.ts) {
+    pbCandle.setTs(candle.ts);
   }
 
-  if (caldle.open) {
-    cc.setOpen(caldle.open);
+  if (candle.open) {
+    pbCandle.setOpen(candle.open);
   }
 
-  if (caldle.close) {
-    cc.setClose(caldle.close);
+  if (candle.close) {
+    pbCandle.setClose(candle.close);
   }
 
-  if (caldle.high) {
-    cc.setHigh(caldle.high);
+  if (candle.high) {
+    pbCandle.setHigh(candle.high);
   }
 
-  if (caldle.low) {
-    cc.setLow(caldle.low);
+  if (candle.low) {
+    pbCandle.setLow(candle.low);
   }
 
-  if (caldle.volume) {
-    cc.setVolume(caldle.volume);
+  if (candle.volume) {
+    pbCandle.setVolume(candle.volume);
   }
 
-  if (caldle.openInterest) {
-    cc.setOpeninterest(caldle.openInterest);
+  if (candle.openInterest) {
+    pbCandle.setOpeninterest(candle.openInterest);
   }
 
   return pbCandle;
@@ -67,10 +67,9 @@ function newCandles(market, symbol, tag, candles) {
  * batchCandles - batch pb.Candles
  * @param {array} candles - candles [{ts, open, close, high, low, volume, openInterest}]
  * @param {int} batchNums - batchNums
- * @param {function} onBatch - onBatch(pb.Candles) error
- * @return {error} err - error
+ * @param {function} onBatch - async onBatch(pb.Candles)
  */
-function batchCandles(candles, batchNums, onBatch) {
+async function batchCandles(candles, batchNums, onBatch) {
   let curlen = batchNums;
   for (let i = 0; i < candles.length; i += curlen) {
     if (batchNums + i > candles.length) {
@@ -79,24 +78,52 @@ function batchCandles(candles, batchNums, onBatch) {
 
     const pbCandles = new Candles();
 
-    pbCandles.setMarket(market);
-    pbCandles.setSymbol(symbol);
-    pbCandles.setTag(tag);
+    // pbCandles.setMarket(market);
+    // pbCandles.setSymbol(symbol);
+    // pbCandles.setTag(tag);
 
     for (let j = 0; j < curlen; ++j) {
       const cc = newCandle(candles[i + j]);
       pbCandles.addCandles(cc, j);
     }
 
-    const err = onBatch(pbCandles);
-    if (err) {
-      return err;
-    }
+    await onBatch(pbCandles);
   }
+}
 
-  return undefined;
+/**
+ * callSend - call.send(msg, callback) => await callSend()
+ * @param {object} call - ClientWritableStream
+ * @param {object} msg - pb.Message
+ * @return {Promise} ret - Promise
+ */
+async function callSend(call, msg) {
+  return new Promise((resolve, reject) => {
+    call.write(msg, () => {
+      resolve();
+    });
+  });
+}
+
+/**
+ * pbCandle2Cancle - pb.Candle -> candle
+ * @param {object} pbCandle - pb.Candle
+ * @return {object} pbCandle - candle {ts, open, close, high, low, volume, openInterest}
+ */
+function pbCandle2Cancle(pbCandle) {
+  return {
+    ts: pbCandle.getTs(),
+    open: pbCandle.getOpen(),
+    close: pbCandle.getClose(),
+    high: pbCandle.getHigh(),
+    low: pbCandle.getLow(),
+    volume: pbCandle.getVolume(),
+    openInterest: pbCandle.getOpeninterest(),
+  };
 }
 
 exports.newCandle = newCandle;
 exports.newCandles = newCandles;
 exports.batchCandles = batchCandles;
+exports.callSend = callSend;
+exports.pbCandle2Cancle = pbCandle2Cancle;

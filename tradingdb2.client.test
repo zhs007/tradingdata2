@@ -1,0 +1,106 @@
+// const {createMockServer} = require('grpc-mock');
+// const {TradingDB2Client} = require('./tradingdb2.client');
+
+// const mockServer = createMockServer({
+//   protoPath: './proto/tradingdb2.proto',
+//   packageName: 'tradingdb2pb',
+//   serviceName: 'TradingDB2Service',
+//   rules: [
+//     {
+//       method: 'updCandles',
+//       streamType: 'client',
+//       stream: [
+//         {
+//           input: {
+//             token: 'abcdefghijklmn',
+//             candles: {
+//               market: 'bitmex',
+//               symbol: 'btx',
+//               tag: '20200101',
+//               candles: [
+//                 {ts: 1, open: 101},
+//                 {ts: 2, open: 102},
+//               ],
+//             },
+//           },
+//         },
+//         {
+//           input: {
+//             token: 'abcdefghijklmn',
+//             candles: {
+//               market: 'bitmex',
+//               symbol: 'btx',
+//               tag: '20200101',
+//               candles: [
+//                 {ts: 10, open: 110},
+//                 {ts: 11, open: 111},
+//               ],
+//             },
+//           },
+//         },
+//       ],
+//       output: {lengthOK: 4},
+//     },
+
+//     {
+//       method: 'getCandles',
+//       streamType: 'server',
+//       stream: [
+//         {
+//           output: {
+//             candles: {
+//               market: 'bitmex',
+//               symbol: 'btx',
+//               tag: '20200101',
+//               candles: [
+//                 {ts: 1, open: 101},
+//                 {ts: 2, open: 102},
+//               ],
+//             },
+//           },
+//         },
+//         {
+//           output: {
+//             candles: {
+//               market: 'bitmex',
+//               symbol: 'btx',
+//               tag: '20200101',
+//               candles: [
+//                 {ts: 10, open: 110},
+//                 {ts: 11, open: 111},
+//               ],
+//             },
+//           },
+//         },
+//       ],
+//       input: {
+//         token: 'abcdefghijklmn',
+//         market: 'bitmex',
+//         symbol: 'btx',
+//         tag: '20200101',
+//       },
+//     },
+//   ],
+// });
+
+// mockServer.listen('0.0.0.0:50051');
+
+// test('tradingdb2.client', async () => {
+//   const client = new TradingDB2Client('0.0.0.0:50051', 'abcdefghijklmn');
+
+//   const [err, res] = await client.updCandles(
+//       'bitmex',
+//       'btx',
+//       '20200101',
+//       [
+//         {ts: 1, open: 101},
+//         {ts: 2, open: 102},
+//         {ts: 10, open: 110},
+//         {ts: 11, open: 111},
+//       ],
+//       2,
+//   );
+
+//   expect(err).toEqual(undefined);
+//   expect(res.getLengthok()).toEqual(4);
+// });
