@@ -1,4 +1,4 @@
-const {Candle, Candles} = require('./pb/tradingdb2_pb');
+const { Candle, Candles } = require('./pb/tradingdb2_pb');
 
 /**
  * newCandle - new pb.Candle
@@ -50,7 +50,7 @@ function newCandle(candle) {
 function newCandles(market, symbol, tag, candles) {
   const pbCandles = new Candles();
 
-  pbCandles.setMarket(marker);
+  pbCandles.setMarket(market);
   pbCandles.setSymbol(symbol);
   pbCandles.setTag(tag);
 
@@ -63,5 +63,40 @@ function newCandles(market, symbol, tag, candles) {
   return pbCandles;
 }
 
+/**
+ * batchCandles - batch pb.Candles
+ * @param {array} candles - candles [{ts, open, close, high, low, volume, openInterest}]
+ * @param {int} batchNums - batchNums
+ * @param {function} onBatch - onBatch(pb.Candles) error
+ * @return {error} err - error
+ */
+function batchCandles(candles, batchNums, onBatch) {
+  let curlen = batchNums;
+  for (let i = 0; i < candles.length; i += curlen) {
+    if (batchNums + i > candles.length) {
+      curlen = candles.length - i;
+    }
+
+    const pbCandles = new Candles();
+
+    pbCandles.setMarket(market);
+    pbCandles.setSymbol(symbol);
+    pbCandles.setTag(tag);
+
+    for (let j = 0; j < curlen; ++j) {
+      const cc = newCandle(candles[i + j]);
+      pbCandles.addCandles(cc, j);
+    }
+
+    const err = onBatch(pbCandles);
+    if (err) {
+      return err;
+    }
+  }
+
+  return undefined;
+}
+
 exports.newCandle = newCandle;
 exports.newCandles = newCandles;
+exports.batchCandles = batchCandles;

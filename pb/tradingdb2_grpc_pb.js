@@ -54,7 +54,7 @@ var TradingDB2ServiceService = exports.TradingDB2ServiceService = {
   // updCandles - update candles
 updCandles: {
     path: '/tradingdb2pb.TradingDB2Service/updCandles',
-    requestStream: false,
+    requestStream: true,
     responseStream: false,
     requestType: tradingdb2_pb.RequestUpdCandles,
     responseType: tradingdb2_pb.ReplyUpdCandles,
@@ -67,7 +67,7 @@ updCandles: {
 getCandles: {
     path: '/tradingdb2pb.TradingDB2Service/getCandles',
     requestStream: false,
-    responseStream: false,
+    responseStream: true,
     requestType: tradingdb2_pb.RequestGetCandles,
     responseType: tradingdb2_pb.ReplyGetCandles,
     requestSerialize: serialize_tradingdb2pb_RequestGetCandles,

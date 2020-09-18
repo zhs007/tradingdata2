@@ -1,6 +1,6 @@
-const {RequestUpdCandles, RequestGetCandles} = require('./pb/tradingdb2_pb');
-const {TradingDB2ServiceClient} = require('./pb/tradingdb2_grpc_pb');
-const {newCandles} = require('./pb.utils');
+const { RequestUpdCandles, RequestGetCandles } = require('./pb/tradingdb2_pb');
+const { TradingDB2ServiceClient } = require('./pb/tradingdb2_grpc_pb');
+const { newCandles, batchCandles } = require('./pb.utils');
 
 const grpc = require('grpc');
 
@@ -16,8 +16,8 @@ class TradingDB2Client {
    */
   constructor(servaddr, token) {
     this.client = new TradingDB2ServiceClient(
-        servaddr,
-        grpc.credentials.createInsecure(),
+      servaddr,
+      grpc.credentials.createInsecure()
     );
 
     this.token = token;
@@ -28,17 +28,22 @@ class TradingDB2Client {
    * @param {string} market - market
    * @param {string} symbol - symbol
    * @param {string} tag - tag
-   * @param {Array} caldles - caldles
+   * @param {Array} candles - candles
+   * @param {int} batchNums - batchNums
    * @param {function} callback - callback(err, res)
+   * @return {error} err - error
    */
-  updCandles(market, symbol, tag, caldles, callback) {
-    const req = new RequestUpdCandles();
-    const pbCandles = newCandles(market, symbol, tag, caldles);
+  updCandles(market, symbol, tag, candles, batchNums, callback) {
+    let call = this.client.updCandles(callback);
 
-    req.setToken(this.token);
-    req.setCandles(pbCandles);
+    let err = batchCandles(candles, batchNums, (pbCandles) => {
+      return call.write(pbCandles);
+    });
+    if (err) {
+      return err;
+    }
 
-    this.client.updCandles(req, callback);
+    return call.end();
   }
 
   /**
