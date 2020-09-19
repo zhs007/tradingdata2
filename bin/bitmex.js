@@ -5,7 +5,7 @@ getBucketedTrades({
   binSize: '1m',
   partial: false,
   symbol: 'XBT',
-  count: 4096,
+  count: 24 * 60,
   start: 0,
   reverse: false,
   startTime: '2020-01-01T00:00:00.000Z',
@@ -19,9 +19,9 @@ getBucketedTrades({
 
       console.log(trades.data);
 
-      if (trades.data.length < 4096) {
-        console.log('current length is ' + trades.data.length);
-      }
+      // if (trades.data.length < 4096) {
+      console.log('current length is ' + trades.data.length);
+      // }
 
       process.exit();
     })
