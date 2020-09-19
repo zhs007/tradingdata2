@@ -36,7 +36,7 @@ const {string2timestamp} = require('../utils');
 getBucketedTradesDay('XBTUSD', '20200101')
     .then((candles) => {
       for (let i = 0; i < candles.length; ++i) {
-        trades[i].ts = string2timestamp(candles[i].timestamp);
+        candles[i].ts = string2timestamp(candles[i].timestamp);
       }
 
       console.log(candles);
