@@ -1,4 +1,9 @@
-const {parseJSON, awaitWrap, buildQueryString} = require('./utils');
+const {
+  parseJSON,
+  awaitWrap,
+  buildQueryString,
+  string2timestamp,
+} = require('./utils');
 
 // 测试常规解析，看是否符合预期
 test('parseJSON', async () => {
@@ -73,6 +78,15 @@ test('awaitWrap error', async () => {
 });
 
 test('buildQueryString', () => {
-  const str = buildQueryString('http://127.0.0.1/', {a: 1, b: 'abc', c: 1.23});
+  const str = buildQueryString('http://127.0.0.1/', {
+    a: 1,
+    b: 'abc',
+    c: 1.23,
+  });
   expect(str).toEqual('http://127.0.0.1/?a=1&b=abc&c=1.23');
+});
+
+test('string2timestamp', () => {
+  const ts = string2timestamp('2020-01-01T00:02:00.000Z');
+  expect(ts).toEqual(1577836920);
 });

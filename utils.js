@@ -1,3 +1,5 @@
+const dayjs = require('dayjs');
+
 /**
  * awaitWrap - this is a wrap for await
  * @param {Promise} promise - Promise
@@ -45,6 +47,16 @@ function buildQueryString(url, params) {
   return encodeURI(url + '?' + str);
 }
 
+/**
+ * string2timestamp -
+ * @param {string} str - string
+ * @return {int} ts - timestamp
+ */
+function string2timestamp(str) {
+  return dayjs(str).unix();
+}
+
 exports.awaitWrap = awaitWrap;
 exports.parseJSON = parseJSON;
 exports.buildQueryString = buildQueryString;
+exports.string2timestamp = string2timestamp;
