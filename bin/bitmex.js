@@ -11,7 +11,8 @@ getBucketedTrades({
   endTime: '2020-01-02T00:00:00.000Z',
 })
     .then((trades) => {
-      console.log(trades);
+      // console.log(trades);
+      console.log(trades.data);
       process.exit();
     })
     .catch((err) => {
