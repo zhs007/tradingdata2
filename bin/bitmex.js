@@ -35,13 +35,13 @@ const {string2timestamp} = require('../utils');
 
 getBucketedTradesDay('XBTUSD', '20200101')
     .then((candles) => {
-      for (let i = 0; i < trades.length; ++i) {
-        trades[i].ts = string2timestamp(trades[i].timestamp);
+      for (let i = 0; i < candles.length; ++i) {
+        trades[i].ts = string2timestamp(candles[i].timestamp);
       }
 
-      console.log(trades);
+      console.log(candles);
 
-      console.log('current length is ' + trades.length);
+      console.log('current length is ' + candles.length);
 
       process.exit();
     })
