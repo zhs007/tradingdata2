@@ -26,10 +26,8 @@ function getBucketedTrades(params) {
 function getBucketedTradesDay(symbol, day) {
   return new Promise(async (resolve, reject) => {
     try {
-      const stt = dayjs(day, 'YYYYMMDD').format('YYYY-MM-DDTHH:mm:ssZ[Z]');
-      const ent = dayjs(day, 'YYYYMMDD')
-          .add(1, 'day')
-          .format('YYYY-MM-DDTHH:mm:ssZ[Z]');
+      const stt = dayjs(day, 'YYYYMMDD').format('YYYY-MM-DD');
+      const ent = dayjs(day, 'YYYYMMDD').add(1, 'day').format('YYYY-MM-DD');
 
       const candles = [];
       while (true) {
