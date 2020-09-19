@@ -5,7 +5,7 @@ getBucketedTrades({
   binSize: '1m',
   partial: false,
   symbol: 'XBT',
-  count: 24 * 60,
+  count: 128,
   start: 0,
   reverse: false,
   startTime: '2020-01-01T00:00:00.000Z',
