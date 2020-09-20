@@ -44,9 +44,7 @@ function getBucketedTradesDay(symbol, day) {
 
         if (res && res.data && Array.isArray(res.data)) {
           for (let i = 0; i < res.data.length; ++i) {
-            if (dayjs(res.data[i].timestamp).format('YYYYMMDD') == day) {
-              candles.push(res.data[i]);
-            }
+            candles.push(res.data[i]);
           }
         }
 
@@ -57,7 +55,14 @@ function getBucketedTradesDay(symbol, day) {
         await sleep(1000);
       }
 
-      resolve(candles);
+      const lst = [];
+      for (let i = 0; i < candles.length; ++i) {
+        if (dayjs(candles[i].timestamp).format('YYYYMMDD') == day) {
+          lst.push(candles[i]);
+        }
+      }
+
+      resolve(lst);
     } catch (err) {
       reject(err);
     }
