@@ -56,7 +56,19 @@ function string2timestamp(str) {
   return dayjs(str).unix();
 }
 
+/**
+ * sleep -
+ * @param {int} ms - microsecond
+ * @return {Promise} ret -
+ */
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 exports.awaitWrap = awaitWrap;
 exports.parseJSON = parseJSON;
 exports.buildQueryString = buildQueryString;
 exports.string2timestamp = string2timestamp;
+exports.sleep = sleep;

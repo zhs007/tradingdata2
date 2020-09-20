@@ -1,6 +1,6 @@
 const {request} = require('../../request');
 const dayjs = require('dayjs');
-// const {awaitWrap} = require('../../utils');
+const {sleep} = require('../../utils');
 
 const API_URL = 'https://www.bitmex.com/api/v1';
 
@@ -53,6 +53,8 @@ function getBucketedTradesDay(symbol, day) {
         if (res.data.length == 0) {
           break;
         }
+
+        await sleep(1000);
       }
 
       resolve(candles);
