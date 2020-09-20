@@ -78,7 +78,7 @@ function getBucketedTradesDay(symbol, day) {
 function getBucketedTradesMonth(symbol, month) {
   return new Promise(async (resolve, reject) => {
     try {
-      const strday = dayjs(month, 'YYYYMM').format('YYYYMMDD');
+      let strday = dayjs(month, 'YYYYMM').format('YYYYMMDD');
 
       const candles = [];
       while (true) {
