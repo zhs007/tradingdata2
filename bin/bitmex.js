@@ -1,5 +1,5 @@
 const {
-  getBucketedTrades,
+  // getBucketedTrades,
   getBucketedTradesDay,
 } = require('../plugins/bitmex/utils');
 const {string2timestamp} = require('../utils');
