@@ -1,6 +1,7 @@
 const {
   // getBucketedTrades,
-  getBucketedTradesDay,
+  // getBucketedTradesDay,
+  getBucketedTradesMonth,
 } = require('../plugins/bitmex/utils');
 const {string2timestamp} = require('../utils');
 
@@ -33,7 +34,24 @@ const {string2timestamp} = require('../utils');
 //       process.exit();
 //     });
 
-getBucketedTradesDay('XBTUSD', '20200101')
+// getBucketedTradesDay('XBTUSD', '20200101')
+//     .then((candles) => {
+//       for (let i = 0; i < candles.length; ++i) {
+//         candles[i].ts = string2timestamp(candles[i].timestamp);
+//       }
+
+//       console.log(candles);
+
+//       console.log('current length is ' + candles.length);
+
+//       process.exit();
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       process.exit();
+//     });
+
+getBucketedTradesMonth('XBTUSD', '202001')
     .then((candles) => {
       for (let i = 0; i < candles.length; ++i) {
         candles[i].ts = string2timestamp(candles[i].timestamp);
