@@ -13,16 +13,20 @@ const axios = require('axios');
  */
 function request(servurl, headers, params) {
   return new Promise((resolve, reject) => {
+    console.log('request', servurl, {headers: headers, params: params});
+
     axios
         .get(servurl, {headers: headers, params: params})
         .then((response) => {
-        // handle success
-        // console.log(response);
+          console.log('request ok');
+          // handle success
+          // console.log(response);
           resolve(response);
         })
         .catch((err) => {
-        // handle error
-        // console.log(error);
+          console.log('request error', err);
+          // handle error
+          // console.log(error);
           reject(err);
         });
   });
