@@ -18,6 +18,8 @@ function start(cfg) {
       for (let i = 0; i < cfg.tags.length; ++i) {
         const candles = await getBucketedTradesMonth(cfg.symbol, cfg.tags[i]);
 
+        console.log('getBucketedTradesMonth ok.', candles.length);
+
         // timestamp: '2020-01-01T01:39:00.000Z',
         // symbol: 'XBTUSD',
         // open: 7188.5,
@@ -64,7 +66,9 @@ function start(cfg) {
           });
         }
 
-        const [err, res] = client.updCandles(
+        console.log('candles ok.', lst.length);
+
+        const [err, res] = await client.updCandles(
             cfg.market,
             cfg.symbol,
             cfg.tags[i],
