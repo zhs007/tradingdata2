@@ -1,1 +1,1 @@
-cp ../tradingdb2/proto/*.proto ./proto/
+cp ../tradingdb2/proto/tradingdb2.proto ./proto/
