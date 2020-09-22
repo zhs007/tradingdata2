@@ -1,5 +1,6 @@
 const {getBucketedTradesMonth} = require('./utils');
 const {TradingDB2Client} = require('../../tradingdb2.client');
+const {string2timestamp} = require('../../utils');
 
 /**
  * start - start bitmex
@@ -16,11 +17,58 @@ function start(cfg) {
 
       for (let i = 0; i < cfg.tags.length; ++i) {
         const candles = await getBucketedTradesMonth(cfg.symbol, cfg.tags[i]);
+
+        // timestamp: '2020-01-01T01:39:00.000Z',
+        // symbol: 'XBTUSD',
+        // open: 7188.5,
+        // high: 7193,
+        // low: 7188,
+        // close: 7192.5,
+        // trades: 436,
+        // volume: 576388,
+        // vwap: 7190.6234,
+        // lastSize: 35158,
+        // turnover: 8015949792,
+        // homeNotional: 80.15949791999999,
+        // foreignNotional: 576388,
+
+        // int64 ts = 1;
+        // int64 open = 2;
+        // int64 close = 3;
+        // int64 high = 4;
+        // int64 low = 5;
+        // int64 volume = 6;
+        // int64 openInterest = 7;
+        // int64 trades = 8;
+        // double vwap = 9;
+        // int64 lastSize = 10;
+        // int64 turnover = 11;
+        // double homeNotional = 12;
+        // double foreignNotional = 13;
+
+        const lst = [];
+        for (let i = 0; i < candles.length; ++i) {
+          lst.push({
+            ts: string2timestamp(candles[i].timestamp),
+            open: Math.floor(candles[i].open * 100),
+            close: Math.floor(candles[i].close * 100),
+            high: Math.floor(candles[i].high * 100),
+            low: Math.floor(candles[i].low * 100),
+            trades: Math.floor(candles[i].trades),
+            volume: Math.floor(candles[i].volume),
+            vwap: candles[i].vwap,
+            lastSize: Math.floor(candles[i].lastSize),
+            turnover: Math.floor(candles[i].turnover),
+            homeNotional: candles[i].homeNotional,
+            foreignNotional: candles[i].foreignNotional,
+          });
+        }
+
         const [err, res] = client.updCandles(
             cfg.market,
             cfg.symbol,
             cfg.tags[i],
-            candles,
+            lst,
             4096,
         );
 

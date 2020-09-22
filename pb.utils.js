@@ -36,6 +36,30 @@ function newCandle(candle) {
     pbCandle.setOpeninterest(candle.openInterest);
   }
 
+  if (candle.trades) {
+    pbCandle.setTrades(candle.trades);
+  }
+
+  if (candle.vwap) {
+    pbCandle.setVwap(candle.vwap);
+  }
+
+  if (candle.lastSize) {
+    pbCandle.setLastsize(candle.lastSize);
+  }
+
+  if (candle.turnover) {
+    pbCandle.setTurnover(candle.turnover);
+  }
+
+  if (candle.homeNotional) {
+    pbCandle.setHomenotional(candle.homeNotional);
+  }
+
+  if (candle.foreignNotional) {
+    pbCandle.setForeignnotional(candle.foreignNotional);
+  }
+
   return pbCandle;
 }
 
