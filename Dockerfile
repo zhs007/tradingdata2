@@ -13,4 +13,4 @@ RUN npm i -dd
 
 COPY ./ ./
 
-CMD ["node", "./bin/bitmex.js"]
+CMD ["node", "./bin/start.js"]
