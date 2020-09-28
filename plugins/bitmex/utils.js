@@ -1,6 +1,6 @@
-const { request } = require('../../request');
+const {request} = require('../../request');
 const dayjs = require('dayjs');
-const { sleep } = require('../../utils');
+const {sleep} = require('../../utils');
 
 const API_URL = 'https://www.bitmex.com/api/v1';
 
@@ -11,9 +11,9 @@ const API_URL = 'https://www.bitmex.com/api/v1';
  */
 function getBucketedTrades(params) {
   return request(
-    API_URL + '/trade/bucketed',
-    { Accept: 'application/json' },
-    params
+      API_URL + '/trade/bucketed',
+      {Accept: 'application/json'},
+      params,
   );
 }
 

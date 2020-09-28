@@ -1,6 +1,6 @@
-const { getBucketedTradesMonth } = require('./utils');
-const { TradingDB2Client } = require('../../tradingdb2.client');
-const { string2timestamp } = require('../../utils');
+const {getBucketedTradesMonth} = require('./utils');
+const {TradingDB2Client} = require('../../tradingdb2.client');
+const {string2timestamp} = require('../../utils');
 
 // XBTH20 09-03
 // XBTM20 12-06
@@ -16,15 +16,15 @@ function start(cfg) {
   return new Promise(async (resolve, reject) => {
     try {
       const client = new TradingDB2Client(
-        cfg.tradingdb2servaddr,
-        cfg.tradingdb2token
+          cfg.tradingdb2servaddr,
+          cfg.tradingdb2token,
       );
 
       for (let i = 0; i < cfg.tags.length; ++i) {
         const candles = await getBucketedTradesMonth(
-          cfg.symbol,
-          cfg.tags[i],
-          cfg.timetype
+            cfg.symbol,
+            cfg.tags[i],
+            cfg.timetype,
         );
 
         console.log('getBucketedTradesMonth ok.', candles.length);
@@ -83,11 +83,11 @@ function start(cfg) {
         }
 
         const [err, res] = await client.updCandles(
-          cfg.market,
-          cfg.symbol,
-          curtag,
-          lst,
-          4096
+            cfg.market,
+            cfg.symbol,
+            curtag,
+            lst,
+            4096,
         );
 
         if (err) {
@@ -97,12 +97,12 @@ function start(cfg) {
         }
 
         console.log(
-          'updCandles',
-          cfg.market,
-          cfg.symbol,
-          curtag,
-          candles.length,
-          res.getLengthok()
+            'updCandles',
+            cfg.market,
+            cfg.symbol,
+            curtag,
+            candles.length,
+            res.getLengthok(),
         );
       }
 
