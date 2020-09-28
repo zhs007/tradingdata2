@@ -6,3 +6,4 @@ tradingdb2token: 123456
 market: bitmex
 symbol: btc
 tags: ['202001']
+timetype: 1m

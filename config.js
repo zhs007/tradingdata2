@@ -51,6 +51,10 @@ function checkConfig(cfg) {
     return new Error('config.tags is not array');
   }
 
+  if (!cfg.timetype) {
+    return new Error('no config.timetype');
+  }
+
   return undefined;
 }
 

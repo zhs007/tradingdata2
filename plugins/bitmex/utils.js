@@ -1,6 +1,6 @@
-const {request} = require('../../request');
+const { request } = require('../../request');
 const dayjs = require('dayjs');
-const {sleep} = require('../../utils');
+const { sleep } = require('../../utils');
 
 const API_URL = 'https://www.bitmex.com/api/v1';
 
@@ -11,9 +11,9 @@ const API_URL = 'https://www.bitmex.com/api/v1';
  */
 function getBucketedTrades(params) {
   return request(
-      API_URL + '/trade/bucketed',
-      {Accept: 'application/json'},
-      params,
+    API_URL + '/trade/bucketed',
+    { Accept: 'application/json' },
+    params
   );
 }
 
@@ -21,9 +21,10 @@ function getBucketedTrades(params) {
  * getBucketedTradesDay - Get previous trades in time buckets
  * @param {string} symbol - symbol
  * @param {string} day - day, it likes 20200101
+ * @param {string} timetype - timetype, it likes 1m, 5m
  * @return {Promise} Promise - then(trades) catch(err)
  */
-function getBucketedTradesDay(symbol, day) {
+function getBucketedTradesDay(symbol, day, timetype) {
   return new Promise(async (resolve, reject) => {
     try {
       const stt = dayjs(day, 'YYYYMMDD').format('YYYY-MM-DD');
@@ -32,7 +33,7 @@ function getBucketedTradesDay(symbol, day) {
       const candles = [];
       while (true) {
         const res = await getBucketedTrades({
-          binSize: '1m',
+          binSize: timetype,
           partial: false,
           symbol: symbol,
           count: 1000,
@@ -73,16 +74,17 @@ function getBucketedTradesDay(symbol, day) {
  * getBucketedTradesMonth - Get previous trades in time buckets
  * @param {string} symbol - symbol
  * @param {string} month - month, it likes 202001
+ * @param {string} timetype - timetype, it likes 1m, 5m
  * @return {Promise} Promise - then(trades) catch(err)
  */
-function getBucketedTradesMonth(symbol, month) {
+function getBucketedTradesMonth(symbol, month, timetype) {
   return new Promise(async (resolve, reject) => {
     try {
       let strday = dayjs(month, 'YYYYMM').format('YYYYMMDD');
 
       const candles = [];
       while (true) {
-        const lst = await getBucketedTradesDay(symbol, strday);
+        const lst = await getBucketedTradesDay(symbol, strday, timetype);
         for (let i = 0; i < lst.length; ++i) {
           candles.push(lst[i]);
         }
