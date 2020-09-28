@@ -2,6 +2,8 @@ const { getBucketedTradesMonth } = require('./utils');
 const { TradingDB2Client } = require('../../tradingdb2.client');
 const { string2timestamp } = require('../../utils');
 
+// XBTH20 XBTM20 XBTU20 XBTZ20
+
 /**
  * start - start bitmex
  * @param {Object} cfg - config
