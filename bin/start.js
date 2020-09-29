@@ -1,5 +1,5 @@
 const {loadConfig, checkConfig} = require('../config');
-const {start} = require('../plugins/bitmex/index');
+const {start} = require('../plugins/index');
 
 const cfg = loadConfig('./cfg/config.yaml');
 

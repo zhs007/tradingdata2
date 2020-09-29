@@ -35,24 +35,36 @@ function checkConfig(cfg) {
     return new Error('no config.tradingdb2token');
   }
 
-  if (!cfg.market) {
-    return new Error('no config.market');
+  if (!cfg.tasks) {
+    return new Error('no config.tasks');
   }
 
-  if (!cfg.symbol) {
-    return new Error('no config.symbol');
+  if (!Array.isArray(cfg.tasks)) {
+    return new Error('config.tasks is not array');
   }
 
-  if (!cfg.tags) {
-    return new Error('no config.tags');
-  }
+  for (let i = 0; i < cfg.tasks.length; ++i) {
+    const curtask = cfg.tasks[i];
 
-  if (!Array.isArray(cfg.tags)) {
-    return new Error('config.tags is not array');
-  }
+    if (!curtask.market) {
+      return new Error('no curtask.market');
+    }
 
-  if (!cfg.timetype) {
-    return new Error('no config.timetype');
+    if (!curtask.symbol) {
+      return new Error('no curtask.symbol');
+    }
+
+    if (!curtask.tags) {
+      return new Error('no curtask.tags');
+    }
+
+    if (!Array.isArray(curtask.tags)) {
+      return new Error('curtask.tags is not array');
+    }
+
+    if (!curtask.timetype) {
+      return new Error('no curtask.timetype');
+    }
   }
 
   return undefined;

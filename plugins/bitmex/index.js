@@ -1,5 +1,5 @@
 const {getBucketedTradesMonth} = require('./utils');
-const {TradingDB2Client} = require('../../tradingdb2.client');
+// const {TradingDB2Client} = require('../../tradingdb2.client');
 const {string2timestamp} = require('../../utils');
 
 // XBTH20 09-03
@@ -9,22 +9,23 @@ const {string2timestamp} = require('../../utils');
 
 /**
  * start - start bitmex
- * @param {Object} cfg - config
+ * @param {Object} client - TradingDB2Client
+ * @param {Object} task - task
  * @return {Promise} Promise - then(response) catch(err)
  */
-function start(cfg) {
+function start(client, task) {
   return new Promise(async (resolve, reject) => {
     try {
-      const client = new TradingDB2Client(
-          cfg.tradingdb2servaddr,
-          cfg.tradingdb2token,
-      );
+      // const client = new TradingDB2Client(
+      //     cfg.tradingdb2servaddr,
+      //     cfg.tradingdb2token,
+      // );
 
-      for (let i = 0; i < cfg.tags.length; ++i) {
+      for (let i = 0; i < task.tags.length; ++i) {
         const candles = await getBucketedTradesMonth(
-            cfg.symbol,
-            cfg.tags[i],
-            cfg.timetype,
+            task.symbol,
+            task.tags[i],
+            task.timetype,
         );
 
         console.log('getBucketedTradesMonth ok.', candles.length);
@@ -77,14 +78,14 @@ function start(cfg) {
 
         console.log('candles ok.', lst.length);
 
-        let curtag = cfg.tags[i];
-        if (cfg.timetype != '1m') {
-          curtag = cfg.tags[i] + '_' + cfg.timetype;
+        let curtag = task.tags[i];
+        if (task.timetype != '1m') {
+          curtag = task.tags[i] + '_' + task.timetype;
         }
 
         const [err, res] = await client.updCandles(
-            cfg.market,
-            cfg.symbol,
+            task.market,
+            task.symbol,
             curtag,
             lst,
             4096,
@@ -98,8 +99,8 @@ function start(cfg) {
 
         console.log(
             'updCandles',
-            cfg.market,
-            cfg.symbol,
+            task.market,
+            task.symbol,
             curtag,
             candles.length,
             res.getLengthok(),

@@ -8,7 +8,3 @@ tasks:
     symbol: btc
     tags: ['202001']
     timetype: 1m
-  - market: bitmex
-    symbol: btc1
-    tags: ['202001']
-    timetype: 1m
