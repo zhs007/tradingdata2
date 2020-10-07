@@ -15,6 +15,17 @@ function deserialize_tradingdb2pb_ReplyGetCandles(buffer_arg) {
   return tradingdb2_pb.ReplyGetCandles.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_tradingdb2pb_ReplyGetSymbol(arg) {
+  if (!(arg instanceof tradingdb2_pb.ReplyGetSymbol)) {
+    throw new Error('Expected argument of type tradingdb2pb.ReplyGetSymbol');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_tradingdb2pb_ReplyGetSymbol(buffer_arg) {
+  return tradingdb2_pb.ReplyGetSymbol.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_tradingdb2pb_ReplyUpdCandles(arg) {
   if (!(arg instanceof tradingdb2_pb.ReplyUpdCandles)) {
     throw new Error('Expected argument of type tradingdb2pb.ReplyUpdCandles');
@@ -24,6 +35,17 @@ function serialize_tradingdb2pb_ReplyUpdCandles(arg) {
 
 function deserialize_tradingdb2pb_ReplyUpdCandles(buffer_arg) {
   return tradingdb2_pb.ReplyUpdCandles.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_tradingdb2pb_ReplyUpdSymbol(arg) {
+  if (!(arg instanceof tradingdb2_pb.ReplyUpdSymbol)) {
+    throw new Error('Expected argument of type tradingdb2pb.ReplyUpdSymbol');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_tradingdb2pb_ReplyUpdSymbol(buffer_arg) {
+  return tradingdb2_pb.ReplyUpdSymbol.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_tradingdb2pb_RequestGetCandles(arg) {
@@ -37,6 +59,17 @@ function deserialize_tradingdb2pb_RequestGetCandles(buffer_arg) {
   return tradingdb2_pb.RequestGetCandles.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_tradingdb2pb_RequestGetSymbol(arg) {
+  if (!(arg instanceof tradingdb2_pb.RequestGetSymbol)) {
+    throw new Error('Expected argument of type tradingdb2pb.RequestGetSymbol');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_tradingdb2pb_RequestGetSymbol(buffer_arg) {
+  return tradingdb2_pb.RequestGetSymbol.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_tradingdb2pb_RequestUpdCandles(arg) {
   if (!(arg instanceof tradingdb2_pb.RequestUpdCandles)) {
     throw new Error('Expected argument of type tradingdb2pb.RequestUpdCandles');
@@ -46,6 +79,17 @@ function serialize_tradingdb2pb_RequestUpdCandles(arg) {
 
 function deserialize_tradingdb2pb_RequestUpdCandles(buffer_arg) {
   return tradingdb2_pb.RequestUpdCandles.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_tradingdb2pb_RequestUpdSymbol(arg) {
+  if (!(arg instanceof tradingdb2_pb.RequestUpdSymbol)) {
+    throw new Error('Expected argument of type tradingdb2pb.RequestUpdSymbol');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_tradingdb2pb_RequestUpdSymbol(buffer_arg) {
+  return tradingdb2_pb.RequestUpdSymbol.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -74,6 +118,30 @@ getCandles: {
     requestDeserialize: deserialize_tradingdb2pb_RequestGetCandles,
     responseSerialize: serialize_tradingdb2pb_ReplyGetCandles,
     responseDeserialize: deserialize_tradingdb2pb_ReplyGetCandles,
+  },
+  // updSymbol - update symbol
+updSymbol: {
+    path: '/tradingdb2pb.TradingDB2Service/updSymbol',
+    requestStream: false,
+    responseStream: false,
+    requestType: tradingdb2_pb.RequestUpdSymbol,
+    responseType: tradingdb2_pb.ReplyUpdSymbol,
+    requestSerialize: serialize_tradingdb2pb_RequestUpdSymbol,
+    requestDeserialize: deserialize_tradingdb2pb_RequestUpdSymbol,
+    responseSerialize: serialize_tradingdb2pb_ReplyUpdSymbol,
+    responseDeserialize: deserialize_tradingdb2pb_ReplyUpdSymbol,
+  },
+  // getSymbol - get symbol
+getSymbol: {
+    path: '/tradingdb2pb.TradingDB2Service/getSymbol',
+    requestStream: false,
+    responseStream: false,
+    requestType: tradingdb2_pb.RequestGetSymbol,
+    responseType: tradingdb2_pb.ReplyGetSymbol,
+    requestSerialize: serialize_tradingdb2pb_RequestGetSymbol,
+    requestDeserialize: deserialize_tradingdb2pb_RequestGetSymbol,
+    responseSerialize: serialize_tradingdb2pb_ReplyGetSymbol,
+    responseDeserialize: deserialize_tradingdb2pb_ReplyGetSymbol,
   },
 };
 
