@@ -1,0 +1,34 @@
+syntax = "proto3";
+package tradingpb;
+option go_package = "github.com/zhs007/tradingdb2/tradingpb";
+import "trading2.proto";
+
+// RequestServerInfo - request server info
+message RequestServerInfo {
+    BasicRequestData basicRequest = 1;
+}
+
+message ReplyServerInfo {
+    TradingNodeInfo nodeInfo = 1;
+}
+
+// RequestCalcPNL - request calcPNL
+message RequestCalcPNL {
+    BasicRequestData basicRequest = 1;
+    SimTradingParams params = 2;
+}
+
+// ReplyCalcPNL - reply calcPNL
+message ReplyCalcPNL{
+    TradingNodeInfo nodeInfo = 1;
+    repeated PNLData pnl = 2;
+    int64 runSeconds = 3;
+}
+
+// TradingNode2 - TradingNode2 service
+service TradingNode2 {
+    // getServerInfo - get server infomation
+    rpc getServerInfo(RequestServerInfo) returns (ReplyServerInfo) {}
+	// calcPNL - calc PNL
+    rpc calcPNL(RequestCalcPNL) returns (ReplyCalcPNL) {}
+}
