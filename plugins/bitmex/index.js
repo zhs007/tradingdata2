@@ -78,14 +78,14 @@ function start(client, task) {
 
         console.log('candles ok.', lst.length);
 
-        let curtag = task.tags[i];
-        if (task.timetype != '1m') {
-          curtag = task.tags[i] + '_' + task.timetype;
-        }
+        const curtag = task.tags[i];
+        // if (task.timetype != '1m') {
+        //   curtag = task.tags[i] + '_' + task.timetype;
+        // }
 
         const [err, res] = await client.updCandles(
             task.market,
-            task.symbol,
+            task.symbol + ':' + task.timetype,
             curtag,
             lst,
             4096,

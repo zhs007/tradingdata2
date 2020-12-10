@@ -1,6 +1,7 @@
 syntax = "proto3";
-package tradingdb2pb;
-option go_package = "github.com/zhs007/tradingdb2/tradingdb2pb";
+package tradingpb;
+option go_package = "github.com/zhs007/tradingdb2/tradingpb";
+import "trading2.proto";
 
 // Candle - candle
 message Candle {
@@ -43,6 +44,7 @@ message FundManager {
     string education = 6;
     string country = 7;
     string resume = 8;
+    repeated FundResult results = 9;
 }
 
 message FundResult {
@@ -77,8 +79,9 @@ message SymbolInfo {
 
 // RequestUpdCandles - request UpdCandles
 message RequestUpdCandles {
-    string token = 1;
+    string token = 1 [deprecated = true];
     Candles candles = 2;
+    BasicRequestData basicRequest = 3;
 }
 
 // ReplyUpdCandles - reply UpdCandles
@@ -88,10 +91,14 @@ message ReplyUpdCandles{
 
 // RequestGetCandles - request GetCandles
 message RequestGetCandles {
-    string token = 1;
+    string token = 1 [deprecated = true];
     string market = 2;
     string symbol = 3;
-    string tag = 4;
+    string tag = 4 [deprecated = true];
+    int64 tsStart = 5;
+    int64 tsEnd = 6;
+    repeated string tags = 7;
+    BasicRequestData basicRequest = 8;
 }
 
 // ReplyGetCandles - reply GetCandles
@@ -101,8 +108,9 @@ message ReplyGetCandles{
 
 // RequestUpdSymbol - request UpdSymbol
 message RequestUpdSymbol {
-    string token = 1;
+    string token = 1 [deprecated = true];
     SymbolInfo symbol = 2;
+    BasicRequestData basicRequest = 3;
 }
 
 // ReplyUpdSymbol - reply UpdSymbol
@@ -112,9 +120,10 @@ message ReplyUpdSymbol{
 
 // RequestGetSymbol - request GetSymbol
 message RequestGetSymbol {
-    string token = 1;
+    string token = 1 [deprecated = true];
     string market = 2;
     string symbol = 3;
+    BasicRequestData basicRequest = 4;
 }
 
 // ReplyGetSymbol - reply GetSymbol
@@ -122,8 +131,31 @@ message ReplyGetSymbol{
     SymbolInfo symbol = 1;
 }
 
-// TradingDB2Service - TradingDB2 service
-service TradingDB2Service {
+// RequestGetSymbols - request GetSymbols
+message RequestGetSymbols {
+    string token = 1 [deprecated = true];
+    string market = 2;
+    repeated string symbols = 3;
+    BasicRequestData basicRequest = 4;
+}
+
+// RequestSimTrading - request simTrading
+message RequestSimTrading {
+    BasicRequestData basicRequest = 1;
+    SimTradingParams params = 2;
+    bool ignoreCache = 3;
+    int32 index = 4;
+}
+
+// ReplySimTrading - reply simTrading
+message ReplySimTrading {
+    repeated PNLData pnl = 1;
+    repeated PNLData baseline = 2 [deprecated = true];
+    int32 index = 3;
+}
+
+// TradingDB2 - TradingDB2 service
+service TradingDB2 {
 	// updCandles - update candles
     rpc updCandles(stream RequestUpdCandles) returns (ReplyUpdCandles) {}
 	// getCandles - get candles
@@ -131,5 +163,11 @@ service TradingDB2Service {
 	// updSymbol - update symbol
     rpc updSymbol(RequestUpdSymbol) returns (ReplyUpdSymbol) {}
 	// getSymbol - get symbol
-	rpc getSymbol(RequestGetSymbol) returns (ReplyGetSymbol) {}    
+    rpc getSymbol(RequestGetSymbol) returns (ReplyGetSymbol) {}
+	// getSymbols - get symbols
+    rpc getSymbols(RequestGetSymbols) returns (stream ReplyGetSymbol) {}
+    // simTrading - simulation trading
+    rpc simTrading(RequestSimTrading) returns (ReplySimTrading) {}
+    // simTrading2 - simulation trading
+    rpc simTrading2(stream RequestSimTrading) returns (stream ReplySimTrading) {}
 }
