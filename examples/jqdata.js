@@ -1,5 +1,5 @@
+const {login, getAllSecurities} = require('../plugins/jqdata');
 const {loadConfig, checkConfig} = require('../config');
-const {start} = require('../plugins/index');
 const {logger} = require('../logger');
 
 const cfg = loadConfig('./cfg/config.yaml');
@@ -11,14 +11,14 @@ if (err) {
   process.exit();
 }
 
-start(cfg)
-    .then(() => {
-      logger.info('task is ok!');
+/**
+ * start - start
+ * @param {Object} cfg - config
+ */
+async function start(cfg) {
+  const token = await login(cfg);
 
-      process.exit();
-    })
-    .catch((err) => {
-      logger.error('start error', err);
+  await getAllSecurities(token, 'index');
+}
 
-      process.exit();
-    });
+start(cfg);
