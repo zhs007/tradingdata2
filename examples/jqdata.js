@@ -1,4 +1,4 @@
-const {login, getAllSecurities} = require('../plugins/jqdata');
+const {login, getAllSecurities, getQueryCount} = require('../plugins/jqdata');
 const {loadConfig, checkConfig} = require('../config');
 const {logger} = require('../logger');
 
@@ -18,9 +18,11 @@ if (err) {
 async function start(cfg) {
   const token = await login(cfg);
 
-  const lst = await getAllSecurities(token, 'index');
+  // const lst = await getAllSecurities(token, 'index');
+  // logger.info('getAllSecurities ', lst);
 
-  logger.info('start ', lst);
+  const count = await getQueryCount(token);
+  logger.info('getQueryCount ', count);
 }
 
 start(cfg);

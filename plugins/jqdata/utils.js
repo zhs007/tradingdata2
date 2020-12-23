@@ -71,6 +71,37 @@ async function getAllSecurities(token, code) {
 }
 
 /**
+ * getQueryCount - get_query_count
+ * @param {string} token - token
+ * @return {string | error} ret - ret or error
+ */
+async function getQueryCount(token) {
+  try {
+    const data = {
+      'method': 'get_query_count',
+      'token': token,
+    };
+
+    const ret = await requestEx(
+        API_URL,
+        'post',
+        undefined,
+        undefined,
+        data,
+        'text',
+    );
+
+    logger.info('jqdata.getQueryCount ok!', {ret: ret.data});
+
+    return ret.data;
+  } catch (err) {
+    logger.error('jqdata.getQueryCount', err);
+
+    return err;
+  }
+}
+
+/**
  * parseData - parse data
  * @param {string} str - str
  * @return {Array} lst - list of object
@@ -100,3 +131,4 @@ function parseData(str) {
 
 exports.login = login;
 exports.getAllSecurities = getAllSecurities;
+exports.getQueryCount = getQueryCount;
