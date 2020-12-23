@@ -102,6 +102,45 @@ async function getQueryCount(token) {
 }
 
 /**
+ * getPricePeriod - get_price_period
+ * @param {string} token - token
+ * @param {string} code - code
+ * @param {string} unit - 1m, 5m,1d
+ * @param {string} startDate - 2018-07-03
+ * @param {string} endDate - 2018-07-03
+ * @return {Array | error} ret - ret or error
+ */
+async function getPricePeriod(token, code, unit, startDate, endDate) {
+  try {
+    const data = {
+      'method': 'get_price_period',
+      'token': token,
+      'code': code,
+      'unit': unit,
+      'date': startDate,
+      'end_date': endDate,
+    };
+
+    const ret = await requestEx(
+        API_URL,
+        'post',
+        undefined,
+        undefined,
+        data,
+        'text',
+    );
+
+    logger.info('jqdata.getPricePeriod ok!', {ret: ret.data});
+
+    return parseData(ret.data);
+  } catch (err) {
+    logger.error('jqdata.getPricePeriod', err);
+
+    return err;
+  }
+}
+
+/**
  * parseData - parse data
  * @param {string} str - str
  * @return {Array} lst - list of object
@@ -132,3 +171,4 @@ function parseData(str) {
 exports.login = login;
 exports.getAllSecurities = getAllSecurities;
 exports.getQueryCount = getQueryCount;
+exports.getPricePeriod = getPricePeriod;
