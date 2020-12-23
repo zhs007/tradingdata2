@@ -3,12 +3,17 @@ tradingdb2servaddr: 127.0.0.1:5002
 # token for tradingdb2
 tradingdb2token: 123456
 
+# jqdata - configuation for jqdata
+jqdata:
+  username: abc
+  password: 123456
+
 tasks:
   - market: bitmex
     symbol: btc
-    tags: ['202001']
+    tags: ["202001"]
     timetype: 1m
   - market: bitmex
     symbol: btc1
-    tags: ['202001']
+    tags: ["202001"]
     timetype: 1m
