@@ -99,6 +99,46 @@ function requestPost(servURL, header, params) {
   });
 }
 
+/**
+ * requestEx
+ * @param {string} servurl - servurl
+ * @param {string} method - method
+ * @param {object} headers - {k1:v1, k2:v2}
+ * @param {object} params - {k1:v1, k2:v2}
+ * @param {object} data - {k1:v1, k2:v2}
+ * @param {string} responseType - text | json
+ * @return {Promise} promise - then(string), catch(err)
+ */
+function requestEx(servurl, method, headers, params, data, responseType) {
+  return new Promise((resolve, reject) => {
+    console.log('request', servurl, {headers: headers, params: params});
+
+    axios({
+      method: method,
+      url: servurl,
+      headers: headers,
+      params: params,
+      data: data,
+      responseType: responseType,
+      // transformResponse: [(data) => {
+      //   return data;
+      // }],
+    })
+        .then((response) => {
+          console.log('request ok');
+          // handle success
+          // console.log(response);
+          resolve(response);
+        })
+        .catch((err) => {
+          console.log('request error', err);
+          // handle error
+          // console.log(error);
+          reject(err);
+        });
+  });
+}
+
 exports.request = request;
-// exports.requestEx = requestEx;
+exports.requestEx = requestEx;
 exports.requestPost = requestPost;

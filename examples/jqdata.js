@@ -18,7 +18,9 @@ if (err) {
 async function start(cfg) {
   const token = await login(cfg);
 
-  await getAllSecurities(token, 'index');
+  const lst = await getAllSecurities(token, 'index');
+
+  logger.info('start ', lst);
 }
 
 start(cfg);
