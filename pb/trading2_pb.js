@@ -7,6 +7,8 @@
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
+/* eslint-disable */
+// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
@@ -885,7 +887,9 @@ proto.tradingpb.CtrlNode.toObject = function(includeInstance, msg) {
     type: jspb.Message.getFieldWithDefault(msg, 6, 0),
     fee: jspb.Message.getFloatingPointFieldWithDefault(msg, 7, 0.0),
     averageholdingprice: jspb.Message.getFloatingPointFieldWithDefault(msg, 8, 0.0),
-    sellprice: jspb.Message.getFloatingPointFieldWithDefault(msg, 9, 0.0)
+    sellprice: jspb.Message.getFloatingPointFieldWithDefault(msg, 9, 0.0),
+    ctrlconditionid: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    strategyid: jspb.Message.getFieldWithDefault(msg, 11, 0)
   };
 
   if (includeInstance) {
@@ -959,6 +963,14 @@ proto.tradingpb.CtrlNode.deserializeBinaryFromReader = function(msg, reader) {
     case 9:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setSellprice(value);
+      break;
+    case 10:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setCtrlconditionid(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setStrategyid(value);
       break;
     default:
       reader.skipField();
@@ -1051,6 +1063,20 @@ proto.tradingpb.CtrlNode.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeDouble(
       9,
+      f
+    );
+  }
+  f = message.getCtrlconditionid();
+  if (f !== 0) {
+    writer.writeInt32(
+      10,
+      f
+    );
+  }
+  f = message.getStrategyid();
+  if (f !== 0) {
+    writer.writeInt32(
+      11,
       f
     );
   }
@@ -1254,6 +1280,42 @@ proto.tradingpb.CtrlNode.prototype.getSellprice = function() {
  */
 proto.tradingpb.CtrlNode.prototype.setSellprice = function(value) {
   return jspb.Message.setProto3FloatField(this, 9, value);
+};
+
+
+/**
+ * optional int32 ctrlConditionID = 10;
+ * @return {number}
+ */
+proto.tradingpb.CtrlNode.prototype.getCtrlconditionid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.CtrlNode} returns this
+ */
+proto.tradingpb.CtrlNode.prototype.setCtrlconditionid = function(value) {
+  return jspb.Message.setProto3IntField(this, 10, value);
+};
+
+
+/**
+ * optional int32 strategyID = 11;
+ * @return {number}
+ */
+proto.tradingpb.CtrlNode.prototype.getStrategyid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.CtrlNode} returns this
+ */
+proto.tradingpb.CtrlNode.prototype.setStrategyid = function(value) {
+  return jspb.Message.setProto3IntField(this, 11, value);
 };
 
 
@@ -1688,8 +1750,10 @@ proto.tradingpb.CtrlCondition.deserializeBinaryFromReader = function(msg, reader
       msg.setIndicator(value);
       break;
     case 2:
-      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
-      msg.setValsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addVals(values[i]);
+      }
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -1700,16 +1764,22 @@ proto.tradingpb.CtrlCondition.deserializeBinaryFromReader = function(msg, reader
       msg.setCombcondition(value);
       break;
     case 5:
-      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
-      msg.setMinvalsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addMinvals(values[i]);
+      }
       break;
     case 6:
-      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
-      msg.setMaxvalsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addMaxvals(values[i]);
+      }
       break;
     case 7:
-      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
-      msg.setOffvalsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addOffvals(values[i]);
+      }
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
@@ -2197,8 +2267,10 @@ proto.tradingpb.IndicatorData.deserializeBinaryFromReader = function(msg, reader
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
-      msg.setValsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addVals(values[i]);
+      }
       break;
     case 2:
       var value = /** @type {number} */ (reader.readInt64());
@@ -2869,7 +2941,8 @@ proto.tradingpb.SellParams.toObject = function(includeInstance, msg) {
   var f, obj = {
     volume: jspb.Message.getFloatingPointFieldWithDefault(msg, 1, 0.0),
     pervolume: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0),
-    money: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0)
+    money: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0),
+    keeptime: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -2918,6 +2991,10 @@ proto.tradingpb.SellParams.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readFloat());
       msg.setMoney(value);
       break;
+    case 4:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setKeeptime(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2965,6 +3042,13 @@ proto.tradingpb.SellParams.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeFloat(
       3,
+      f
+    );
+  }
+  f = message.getKeeptime();
+  if (f !== 0) {
+    writer.writeInt64(
+      4,
       f
     );
   }
@@ -3022,6 +3106,24 @@ proto.tradingpb.SellParams.prototype.getMoney = function() {
  */
 proto.tradingpb.SellParams.prototype.setMoney = function(value) {
   return jspb.Message.setProto3FloatField(this, 3, value);
+};
+
+
+/**
+ * optional int64 keepTime = 4;
+ * @return {number}
+ */
+proto.tradingpb.SellParams.prototype.getKeeptime = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.SellParams} returns this
+ */
+proto.tradingpb.SellParams.prototype.setKeeptime = function(value) {
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
