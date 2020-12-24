@@ -1,12 +1,22 @@
-const {login, getAllSecurities, getQueryCount, getPricePeriod} = require('./utils');
+const {login, getAllSecurities, getQueryCount, getPricePeriod, parseDate} = require('./utils');
+
+/**
+ * parseSymbol - parse symbol
+ * @param {string} str - str
+ * @return {string} symbol - symbol for trdb2
+ */
+function parseSymbol(str) {
+  return str.replace('.', '_');
+}
 
 /**
  * start - start bitmex
  * @param {Object} client - TradingDB2Client
+ * @param {Object} cfg - configuation
  * @param {Object} task - task
  * @return {Promise} Promise - then(response) catch(err)
  */
-function start(client, task) {
+function start(client, cfg, task) {
   return new Promise(async (resolve, reject) => {
     try {
       const retLogin = await login(cfg);
@@ -40,7 +50,7 @@ function start(client, task) {
         // "avg":"5018.1900",
         // "pre_close":"5046.8400",
 
-        // int64 ts = 1;
+        // int64 ts = 1;                   // UTC时间戳
         // int64 open = 2;
         // int64 close = 3;
         // int64 high = 4;
@@ -53,22 +63,28 @@ function start(client, task) {
         // int64 turnover = 11;
         // double homeNotional = 12;
         // double foreignNotional = 13;
+        // int64 totalMoney = 14;          // 总金额
+        // bool paused = 15;               // 是否停盘
+        // int64 highLimit = 16;           // 上涨限制
+        // int64 lowLimit = 17;            // 下跌限制
+        // int64 avg = 18;                 // 平均价格
+        // int64 preClose = 19;            // 前一天的close价格
 
         const lst = [];
         for (let i = 0; i < candles.length; ++i) {
           lst.push({
-            ts: string2timestamp(candles[i].timestamp),
-            open: Math.floor(candles[i].open * 100),
-            close: Math.floor(candles[i].close * 100),
-            high: Math.floor(candles[i].high * 100),
-            low: Math.floor(candles[i].low * 100),
-            trades: Math.floor(candles[i].trades),
-            volume: Math.floor(candles[i].volume),
-            vwap: candles[i].vwap,
-            lastSize: Math.floor(candles[i].lastSize),
-            turnover: Math.floor(candles[i].turnover),
-            homeNotional: candles[i].homeNotional,
-            foreignNotional: candles[i].foreignNotional,
+            ts: parseDate(candles[i]['date']),
+            open: Math.floor(parseFloat(candles[i]['open']) * 10000),
+            close: Math.floor(parseFloat(candles[i]['close']) * 10000),
+            high: Math.floor(parseFloat(candles[i]['high']) * 10000),
+            low: Math.floor(parseFloat(candles[i]['low']) * 10000),
+            volume: parseInt(candles[i]['volume']),
+            totalMoney: Math.floor(parseFloat(candles[i]['money']) * 10000),
+            paused: candles[i]['money'] != '0',
+            highLimit: Math.floor(parseFloat(candles[i]['high_limit']) * 10000),
+            lowLimit: Math.floor(parseFloat(candles[i]['low_limit']) * 10000),
+            avg: Math.floor(parseFloat(candles[i]['avg']) * 10000),
+            preClose: Math.floor(parseFloat(candles[i]['pre_close']) * 10000),
           });
         }
 
@@ -79,9 +95,11 @@ function start(client, task) {
         //   curtag = task.tags[i] + '_' + task.timetype;
         // }
 
+        const symbol = parseSymbol(task.symbol);
+
         const [err, res] = await client.updCandles(
             task.market,
-            task.symbol + ':' + task.timetype,
+            symbol + ':' + task.timetype,
             curtag,
             lst,
             4096,
@@ -96,7 +114,7 @@ function start(client, task) {
         console.log(
             'updCandles',
             task.market,
-            task.symbol,
+            symbol,
             curtag,
             candles.length,
             res.getLengthok(),

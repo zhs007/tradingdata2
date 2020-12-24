@@ -1,9 +1,17 @@
 const {requestEx} = require('../../request');
 const {logger} = require('../../logger');
-// const dayjs = require('dayjs');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+// dayjs.extend(utc);
+// dayjs.extend(timezone);
 // const {sleep} = require('../../utils');
 
 const API_URL = 'https://dataapi.joinquant.com/apis';
+const TIMEZONE = 'Asia/Shanghai';
 
 /**
  * login - login jqdata
@@ -168,7 +176,17 @@ function parseData(str) {
   return lst;
 }
 
+/**
+ * parseDate - parse date
+ * @param {string} str - str
+ * @return {int} ts - timestamp
+ */
+function parseDate(str) {
+  return dayjs.tz(str, TIMEZONE).unix() - 8 * 60 * 60;
+}
+
 exports.login = login;
 exports.getAllSecurities = getAllSecurities;
 exports.getQueryCount = getQueryCount;
 exports.getPricePeriod = getPricePeriod;
+exports.parseDate = parseDate;

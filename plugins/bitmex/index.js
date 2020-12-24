@@ -10,10 +10,11 @@ const {string2timestamp} = require('../../utils');
 /**
  * start - start bitmex
  * @param {Object} client - TradingDB2Client
+ * @param {Object} cfg - configuation
  * @param {Object} task - task
  * @return {Promise} Promise - then(response) catch(err)
  */
-function start(client, task) {
+function start(client, cfg, task) {
   return new Promise(async (resolve, reject) => {
     try {
       // const client = new TradingDB2Client(

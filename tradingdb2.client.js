@@ -1,5 +1,6 @@
+const {BasicRequestData} = require('./pb/trading2_pb');
 const {RequestUpdCandles, RequestGetCandles} = require('./pb/tradingdb2_pb');
-const {TradingDB2ServiceClient} = require('./pb/tradingdb2_grpc_pb');
+const trdb2 = require('./pb/tradingdb2_grpc_pb');
 const {batchCandles, callSend, pbCandle2Cancle} = require('./pb.utils');
 
 const grpc = require('grpc');
@@ -15,7 +16,7 @@ class TradingDB2Client {
    * @param {string} token - token
    */
   constructor(servaddr, token) {
-    this.client = new TradingDB2ServiceClient(
+    this.client = new trdb2.TradingDB2Client(
         servaddr,
         grpc.credentials.createInsecure(),
     );
@@ -40,14 +41,18 @@ class TradingDB2Client {
         });
 
         await batchCandles(candles, batchNums, async (pbCandles) => {
+          const bq = new BasicRequestData();
+          bq.setToken(this.token);
+
           const req = new RequestUpdCandles();
 
           pbCandles.setMarket(market);
           pbCandles.setSymbol(symbol);
           pbCandles.setTag(tag);
 
-          req.setToken(this.token);
+          // req.setToken(this.token);
           req.setCandles(pbCandles);
+          req.setBasicrequest(bq);
 
           await callSend(call, req);
         });

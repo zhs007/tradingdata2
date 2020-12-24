@@ -1,4 +1,5 @@
 const bitmex = require('./bitmex/index');
+const jqdata = require('./jqdata/index');
 const {TradingDB2Client} = require('../tradingdb2.client');
 
 /**
@@ -17,7 +18,9 @@ function start(cfg) {
       for (let i = 0; i < cfg.tasks.length; ++i) {
         const curtask = cfg.tasks[i];
         if (curtask.market == 'bitmex') {
-          await bitmex.start(client, curtask);
+          await bitmex.start(client, cfg, curtask);
+        } else if (curtask.market == 'jqdata') {
+          await jqdata.start(client, cfg, curtask);
         }
       }
 
