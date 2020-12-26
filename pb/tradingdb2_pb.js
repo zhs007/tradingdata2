@@ -7,6 +7,8 @@
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
+/* eslint-disable */
+// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
@@ -454,7 +456,13 @@ proto.tradingpb.Candle.toObject = function(includeInstance, msg) {
     lastsize: jspb.Message.getFieldWithDefault(msg, 10, 0),
     turnover: jspb.Message.getFieldWithDefault(msg, 11, 0),
     homenotional: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0),
-    foreignnotional: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0)
+    foreignnotional: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0),
+    totalmoney: jspb.Message.getFieldWithDefault(msg, 14, 0),
+    paused: jspb.Message.getBooleanFieldWithDefault(msg, 15, false),
+    highlimit: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    lowlimit: jspb.Message.getFieldWithDefault(msg, 17, 0),
+    avg: jspb.Message.getFieldWithDefault(msg, 18, 0),
+    preclose: jspb.Message.getFieldWithDefault(msg, 19, 0)
   };
 
   if (includeInstance) {
@@ -542,6 +550,30 @@ proto.tradingpb.Candle.deserializeBinaryFromReader = function(msg, reader) {
     case 13:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setForeignnotional(value);
+      break;
+    case 14:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalmoney(value);
+      break;
+    case 15:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setPaused(value);
+      break;
+    case 16:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setHighlimit(value);
+      break;
+    case 17:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setLowlimit(value);
+      break;
+    case 18:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setAvg(value);
+      break;
+    case 19:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setPreclose(value);
       break;
     default:
       reader.skipField();
@@ -660,6 +692,48 @@ proto.tradingpb.Candle.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeDouble(
       13,
+      f
+    );
+  }
+  f = message.getTotalmoney();
+  if (f !== 0) {
+    writer.writeInt64(
+      14,
+      f
+    );
+  }
+  f = message.getPaused();
+  if (f) {
+    writer.writeBool(
+      15,
+      f
+    );
+  }
+  f = message.getHighlimit();
+  if (f !== 0) {
+    writer.writeInt64(
+      16,
+      f
+    );
+  }
+  f = message.getLowlimit();
+  if (f !== 0) {
+    writer.writeInt64(
+      17,
+      f
+    );
+  }
+  f = message.getAvg();
+  if (f !== 0) {
+    writer.writeInt64(
+      18,
+      f
+    );
+  }
+  f = message.getPreclose();
+  if (f !== 0) {
+    writer.writeInt64(
+      19,
       f
     );
   }
@@ -897,6 +971,114 @@ proto.tradingpb.Candle.prototype.getForeignnotional = function() {
  */
 proto.tradingpb.Candle.prototype.setForeignnotional = function(value) {
   return jspb.Message.setProto3FloatField(this, 13, value);
+};
+
+
+/**
+ * optional int64 totalMoney = 14;
+ * @return {number}
+ */
+proto.tradingpb.Candle.prototype.getTotalmoney = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.Candle} returns this
+ */
+proto.tradingpb.Candle.prototype.setTotalmoney = function(value) {
+  return jspb.Message.setProto3IntField(this, 14, value);
+};
+
+
+/**
+ * optional bool paused = 15;
+ * @return {boolean}
+ */
+proto.tradingpb.Candle.prototype.getPaused = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 15, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.tradingpb.Candle} returns this
+ */
+proto.tradingpb.Candle.prototype.setPaused = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 15, value);
+};
+
+
+/**
+ * optional int64 highLimit = 16;
+ * @return {number}
+ */
+proto.tradingpb.Candle.prototype.getHighlimit = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.Candle} returns this
+ */
+proto.tradingpb.Candle.prototype.setHighlimit = function(value) {
+  return jspb.Message.setProto3IntField(this, 16, value);
+};
+
+
+/**
+ * optional int64 lowLimit = 17;
+ * @return {number}
+ */
+proto.tradingpb.Candle.prototype.getLowlimit = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.Candle} returns this
+ */
+proto.tradingpb.Candle.prototype.setLowlimit = function(value) {
+  return jspb.Message.setProto3IntField(this, 17, value);
+};
+
+
+/**
+ * optional int64 avg = 18;
+ * @return {number}
+ */
+proto.tradingpb.Candle.prototype.getAvg = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 18, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.Candle} returns this
+ */
+proto.tradingpb.Candle.prototype.setAvg = function(value) {
+  return jspb.Message.setProto3IntField(this, 18, value);
+};
+
+
+/**
+ * optional int64 preClose = 19;
+ * @return {number}
+ */
+proto.tradingpb.Candle.prototype.getPreclose = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 19, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.Candle} returns this
+ */
+proto.tradingpb.Candle.prototype.setPreclose = function(value) {
+  return jspb.Message.setProto3IntField(this, 19, value);
 };
 
 
@@ -4652,7 +4834,8 @@ proto.tradingpb.RequestSimTrading.toObject = function(includeInstance, msg) {
     basicrequest: (f = msg.getBasicrequest()) && trading2_pb.BasicRequestData.toObject(includeInstance, f),
     params: (f = msg.getParams()) && trading2_pb.SimTradingParams.toObject(includeInstance, f),
     ignorecache: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
-    index: jspb.Message.getFieldWithDefault(msg, 4, 0)
+    index: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    ignoretotalreturn: jspb.Message.getFloatingPointFieldWithDefault(msg, 5, 0.0)
   };
 
   if (includeInstance) {
@@ -4706,6 +4889,10 @@ proto.tradingpb.RequestSimTrading.deserializeBinaryFromReader = function(msg, re
     case 4:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setIndex(value);
+      break;
+    case 5:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setIgnoretotalreturn(value);
       break;
     default:
       reader.skipField();
@@ -4763,6 +4950,13 @@ proto.tradingpb.RequestSimTrading.serializeBinaryToWriter = function(message, wr
   if (f !== 0) {
     writer.writeInt32(
       4,
+      f
+    );
+  }
+  f = message.getIgnoretotalreturn();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      5,
       f
     );
   }
@@ -4876,6 +5070,24 @@ proto.tradingpb.RequestSimTrading.prototype.getIndex = function() {
  */
 proto.tradingpb.RequestSimTrading.prototype.setIndex = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
+};
+
+
+/**
+ * optional float ignoreTotalReturn = 5;
+ * @return {number}
+ */
+proto.tradingpb.RequestSimTrading.prototype.getIgnoretotalreturn = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 5, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.RequestSimTrading} returns this
+ */
+proto.tradingpb.RequestSimTrading.prototype.setIgnoretotalreturn = function(value) {
+  return jspb.Message.setProto3FloatField(this, 5, value);
 };
 
 

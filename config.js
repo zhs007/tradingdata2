@@ -35,6 +35,16 @@ function checkConfig(cfg) {
     return new Error('no config.tradingdb2token');
   }
 
+  if (cfg.jqdata) {
+    if (!cfg.jqdata.username) {
+      return new Error('no config.jqdata.username');
+    }
+
+    if (!cfg.jqdata.password) {
+      return new Error('no config.jqdata.password');
+    }
+  }
+
   if (!cfg.tasks) {
     return new Error('no config.tasks');
   }

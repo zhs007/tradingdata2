@@ -1,7 +1,7 @@
 const {TradingDB2Client} = require('../tradingdb2.client');
 
 const client = new TradingDB2Client(
-    '0.0.0.0:5002',
+    '127.0.0.1:5002',
     'wzDkh9h2fhfUVuS9jZ8uVbhV3vC5AWX3',
 );
 

@@ -1,8 +1,8 @@
 const {loadConfig, checkConfig} = require('../config');
-const {start} = require('../plugins/index');
+const {start, checkTask} = require('../plugins/index');
 const {logger} = require('../logger');
 
-const cfg = loadConfig('./cfg/config.yaml');
+const cfg = loadConfig('./cfg/jqdata.yaml');
 
 const err = checkConfig(cfg);
 if (err) {
@@ -12,8 +12,13 @@ if (err) {
 }
 
 start(cfg)
-    .then(() => {
+    .then(async () => {
       logger.info('task is ok!');
+
+      const isvalid = await checkTask(cfg);
+      if (isvalid) {
+        logger.info('checkTask is ok!');
+      }
 
       process.exit();
     })
