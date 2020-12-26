@@ -140,6 +140,12 @@ async function getPricePeriod(token, code, unit, startDate, endDate) {
         'text',
     );
 
+    if (ret.data.indexOf('error:') >= 0) {
+      logger.info('jqdata.getPricePeriod error!', {ret: ret.data});
+
+      return new Error(ret.data);
+    }
+
     logger.info('jqdata.getPricePeriod ok!', {ret: ret.data});
 
     return parseData(ret.data);
