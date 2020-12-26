@@ -7,7 +7,7 @@ test('config', async () => {
   const err = checkConfig(cfg);
   expect(err).toEqual(undefined);
 
-  expect(cfg.tasks.length).toEqual(2);
+  expect(cfg.tasks.length).toEqual(3);
 });
 
 test('config1', async () => {
