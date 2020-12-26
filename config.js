@@ -75,6 +75,10 @@ function checkConfig(cfg) {
     if (!curtask.timetype) {
       return new Error('no curtask.timetype');
     }
+
+    // if (!curtask.type) {
+    //   return curtask.type = '';
+    // }
   }
 
   return undefined;
