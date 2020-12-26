@@ -1,4 +1,5 @@
 const {login, getAllSecurities, getQueryCount, getPricePeriod, parseDate} = require('./utils');
+const {logger} = require('../../logger');
 
 /**
  * parseSymbol - parse symbol
@@ -128,7 +129,127 @@ function start(client, cfg, task) {
   });
 }
 
+/**
+ * checkCandle - check candle
+ * @param {Object} candles - candles
+ * @param {Object} candle - candle
+ * @return {boolean} ret - is valid
+ */
+function checkCandle(candles, candle) {
+  for (let i = 0; i < candles.length; ++i) {
+    if (candles[i].ts == candle.ts) {
+      if (candles[i].open != candle.open) {
+        return false;
+      }
+
+      if (candles[i].close != candle.close) {
+        return false;
+      }
+
+      if (candles[i].high != candle.high) {
+        return false;
+      }
+
+      if (candles[i].low != candle.low) {
+        return false;
+      }
+
+      if (candles[i].volume != candle.volume) {
+        return false;
+      }
+
+      if (candles[i].totalMoney != candle.totalMoney) {
+        return false;
+      }
+
+      if (candles[i].paused != candle.paused) {
+        return false;
+      }
+
+      if (candles[i].highLimit != candle.highLimit) {
+        return false;
+      }
+
+      if (candles[i].lowLimit != candle.lowLimit) {
+        return false;
+      }
+
+      if (candles[i].avg != candle.avg) {
+        return false;
+      }
+
+      if (candles[i].preClose != candle.preClose) {
+        return false;
+      }
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * checkTask - check task
+ * @param {Object} client - TradingDB2Client
+ * @param {Object} cfg - configuation
+ * @param {Object} task - task
+ * @return {Promise} Promise - then(response) catch(err)
+ */
+async function checkTask(client, cfg, task) {
+  const symbol = parseSymbol(task.symbol);
+
+  const ret = await client.getCandles(task.market, symbol, '');
+  if (Array.isArray(ret) && ret[0] != undefined && Array.isArray(ret[1])) {
+    let nums = 0;
+
+    for (let i = 0; i < task.tags.length; ++i) {
+      const candles = await getPricePeriod(
+          retLogin,
+          task.symbol, // It's like 000300.XSHG
+          task.timetype, // It's like 1m, 1d
+          task.tags[i].toString() + '-01-01', // It's like 2010
+          task.tags[i].toString() + '-12-31', // It's like 2010
+      );
+
+      for (let j = 0; j < candles.length; ++j) {
+        const cc = {
+          ts: parseDate(candles[j]['date']),
+          open: Math.floor(parseFloat(candles[j]['open']) * 10000),
+          close: Math.floor(parseFloat(candles[j]['close']) * 10000),
+          high: Math.floor(parseFloat(candles[j]['high']) * 10000),
+          low: Math.floor(parseFloat(candles[j]['low']) * 10000),
+          volume: parseInt(candles[j]['volume']),
+          totalMoney: Math.floor(parseFloat(candles[j]['money']) * 10000),
+          paused: candles[j]['money'] != '0',
+          highLimit: Math.floor(parseFloat(candles[j]['high_limit']) * 10000),
+          lowLimit: Math.floor(parseFloat(candles[j]['low_limit']) * 10000),
+          avg: Math.floor(parseFloat(candles[j]['avg']) * 10000),
+          preClose: Math.floor(parseFloat(candles[j]['pre_close']) * 10000),
+        };
+
+        if (!checkCandle(ret[1], cc)) {
+          logger.error('jqdata.checkTask false', cc);
+
+          return false;
+        }
+
+        nums++;
+      }
+    }
+
+    if (nums != ret[1].length) {
+      logger.error('jqdata.checkTask nums fail', {nums: nums, candles: ret[1].lenmgth});
+
+      return false;
+    }
+  }
+
+  return true;
+}
+
 exports.start = start;
+exports.checkTask = checkTask;
 
 exports.login = login;
 exports.getAllSecurities = getAllSecurities;

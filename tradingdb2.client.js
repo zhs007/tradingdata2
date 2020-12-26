@@ -74,12 +74,17 @@ class TradingDB2Client {
   getCandles(market, symbol, tag) {
     return new Promise((resolve, reject) => {
       try {
+        const bq = new BasicRequestData();
+        bq.setToken(this.token);
+
         const req = new RequestGetCandles();
 
-        req.setToken(this.token);
+        // req.setToken(this.token);
         req.setMarket(market);
         req.setSymbol(symbol);
         req.setTag(tag);
+
+        req.setBasicrequest(bq);
 
         const candles = [];
 
