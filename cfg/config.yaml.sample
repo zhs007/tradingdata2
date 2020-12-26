@@ -39,3 +39,5 @@ tasks:
         "2020",
       ]
     timetype: 1d
+    startsymbol: 1
+    endsymbol: 852

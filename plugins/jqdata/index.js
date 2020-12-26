@@ -11,6 +11,26 @@ function parseSymbol(str) {
 }
 
 /**
+ * isValidSymbol - symbol >= startsymbol && symbol <= endsymbol
+ * @param {string} symbol - symbol
+ * @param {object} task - task
+ * @return {boolean} isvalid - is a valid symbol
+ */
+function isValidSymbol(symbol, task) {
+  try {
+    const arr = symbol.split('.');
+    if (arr.length > 0) {
+      const code = parseInt(arr[0]);
+      return code >= task.startsymbol && code <= task.endsymbol;
+    }
+  } catch (err) {
+    logger.error('isValidSymbol ', err);
+  }
+
+  return false;
+}
+
+/**
  * startCandles - start candles
  * @param {Object} client - TradingDB2Client
  * @param {Object} cfg - configuation
@@ -137,11 +157,13 @@ function start(client, cfg, task) {
       if (task.symbol == 'index') {
         const lst = await getAllSecurities(retLogin, 'index');
         for (let i = 0; i < lst.length; ++i) {
-          const err = await startCandles(client, cfg, retLogin, lst[i]['code'], task);
-          if (err) {
-            reject(err);
+          if (isValidSymbol(lst[i]['code'], task)) {
+            const err = await startCandles(client, cfg, retLogin, lst[i]['code'], task);
+            if (err) {
+              reject(err);
 
-            return;
+              return;
+            }
           }
         }
       } else {
