@@ -10,6 +10,8 @@ dayjs.extend(timezone);
 // dayjs.extend(timezone);
 // const {sleep} = require('../../utils');
 
+// https://dataapi.joinquant.com/docs
+
 const API_URL = 'https://dataapi.joinquant.com/apis';
 const TIMEZONE = 'Asia/Shanghai';
 
