@@ -29,85 +29,89 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
         task.tags[i].toString() + '-12-31', // It's like 2010
     );
 
-    console.log('getPricePeriod ok.', candles.length);
+    if (candles) {
+      // console.log('getPricePeriod ok.', candles.length);
 
-    // "date":"2020-12-22",
-    // "open":"5034.9800",
-    // "close":"4964.7700",
-    // "high":"5055.1300",
-    // "low":"4960.9500",
-    // "volume":"16234497000",
-    // "money":"326758817663.3000",
-    // "paused":"0",
-    // "high_limit":"5551.5200",
-    // "low_limit":"4542.1600",
-    // "avg":"5018.1900",
-    // "pre_close":"5046.8400",
+      // "date":"2020-12-22",
+      // "open":"5034.9800",
+      // "close":"4964.7700",
+      // "high":"5055.1300",
+      // "low":"4960.9500",
+      // "volume":"16234497000",
+      // "money":"326758817663.3000",
+      // "paused":"0",
+      // "high_limit":"5551.5200",
+      // "low_limit":"4542.1600",
+      // "avg":"5018.1900",
+      // "pre_close":"5046.8400",
 
-    // int64 ts = 1;                   // UTC时间戳
-    // int64 open = 2;
-    // int64 close = 3;
-    // int64 high = 4;
-    // int64 low = 5;
-    // int64 volume = 6;
-    // int64 openInterest = 7;
-    // int64 trades = 8;
-    // double vwap = 9;
-    // int64 lastSize = 10;
-    // int64 turnover = 11;
-    // double homeNotional = 12;
-    // double foreignNotional = 13;
-    // int64 totalMoney = 14;          // 总金额
-    // bool paused = 15;               // 是否停盘
-    // int64 highLimit = 16;           // 上涨限制
-    // int64 lowLimit = 17;            // 下跌限制
-    // int64 avg = 18;                 // 平均价格
-    // int64 preClose = 19;            // 前一天的close价格
+      // int64 ts = 1;                   // UTC时间戳
+      // int64 open = 2;
+      // int64 close = 3;
+      // int64 high = 4;
+      // int64 low = 5;
+      // int64 volume = 6;
+      // int64 openInterest = 7;
+      // int64 trades = 8;
+      // double vwap = 9;
+      // int64 lastSize = 10;
+      // int64 turnover = 11;
+      // double homeNotional = 12;
+      // double foreignNotional = 13;
+      // int64 totalMoney = 14;          // 总金额
+      // bool paused = 15;               // 是否停盘
+      // int64 highLimit = 16;           // 上涨限制
+      // int64 lowLimit = 17;            // 下跌限制
+      // int64 avg = 18;                 // 平均价格
+      // int64 preClose = 19;            // 前一天的close价格
 
-    const lst = [];
-    for (let i = 0; i < candles.length; ++i) {
-      lst.push({
-        ts: parseDate(candles[i]['date']),
-        open: Math.floor(parseFloat(candles[i]['open']) * 10000),
-        close: Math.floor(parseFloat(candles[i]['close']) * 10000),
-        high: Math.floor(parseFloat(candles[i]['high']) * 10000),
-        low: Math.floor(parseFloat(candles[i]['low']) * 10000),
-        volume: parseInt(candles[i]['volume']),
-        totalMoney: Math.floor(parseFloat(candles[i]['money']) * 10000),
-        paused: candles[i]['money'] != '0',
-        highLimit: Math.floor(parseFloat(candles[i]['high_limit']) * 10000),
-        lowLimit: Math.floor(parseFloat(candles[i]['low_limit']) * 10000),
-        avg: Math.floor(parseFloat(candles[i]['avg']) * 10000),
-        preClose: Math.floor(parseFloat(candles[i]['pre_close']) * 10000),
-      });
+      const lst = [];
+      for (let i = 0; i < candles.length; ++i) {
+        lst.push({
+          ts: parseDate(candles[i]['date']),
+          open: Math.floor(parseFloat(candles[i]['open']) * 10000),
+          close: Math.floor(parseFloat(candles[i]['close']) * 10000),
+          high: Math.floor(parseFloat(candles[i]['high']) * 10000),
+          low: Math.floor(parseFloat(candles[i]['low']) * 10000),
+          volume: parseInt(candles[i]['volume']),
+          totalMoney: Math.floor(parseFloat(candles[i]['money']) * 10000),
+          paused: candles[i]['money'] != '0',
+          highLimit: Math.floor(parseFloat(candles[i]['high_limit']) * 10000),
+          lowLimit: Math.floor(parseFloat(candles[i]['low_limit']) * 10000),
+          avg: Math.floor(parseFloat(candles[i]['avg']) * 10000),
+          preClose: Math.floor(parseFloat(candles[i]['pre_close']) * 10000),
+        });
+      }
+
+      console.log('candles ok.', lst.length);
+
+      const curtag = task.tags[i];
+
+      const symbol = parseSymbol(jqsymbol);
+
+      const [err, res] = await client.updCandles(
+          task.market,
+          symbol + ':' + task.timetype,
+          curtag,
+          lst,
+          4096,
+      );
+
+      if (err) {
+        return err;
+      }
+
+      console.log(
+          'updCandles',
+          task.market,
+          symbol,
+          curtag,
+          candles.length,
+          res.getLengthok(),
+      );
+    } else {
+      console.log('getPricePeriod nodata.', {tag: task.tags[i]});
     }
-
-    console.log('candles ok.', lst.length);
-
-    const curtag = task.tags[i];
-
-    const symbol = parseSymbol(jqsymbol);
-
-    const [err, res] = await client.updCandles(
-        task.market,
-        symbol + ':' + task.timetype,
-        curtag,
-        lst,
-        4096,
-    );
-
-    if (err) {
-      return err;
-    }
-
-    console.log(
-        'updCandles',
-        task.market,
-        symbol,
-        curtag,
-        candles.length,
-        res.getLengthok(),
-    );
   }
 
   return undefined;
