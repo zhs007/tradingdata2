@@ -190,7 +190,7 @@ function parseData(str) {
  * @return {int} ts - timestamp
  */
 function parseDate(str) {
-  return dayjs.tz(str, TIMEZONE).unix() - 8 * 60 * 60;
+  return dayjs.utc(str).unix();
 }
 
 exports.login = login;
