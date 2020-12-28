@@ -49,7 +49,7 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
         task.tags[i].toString() + '-12-31', // It's like 2010
     );
 
-    if (candles) {
+    if (Array.isArray(candles)) {
       // console.log('getPricePeriod ok.', candles.length);
 
       // "date":"2020-12-22",
