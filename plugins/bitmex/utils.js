@@ -49,11 +49,11 @@ function getBucketedTradesDay(symbol, day, timetype) {
           }
         }
 
+        await sleep(1500);
+
         if (res.data.length == 0) {
           break;
         }
-
-        await sleep(1000);
       }
 
       const lst = [];
