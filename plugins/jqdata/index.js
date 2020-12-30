@@ -111,7 +111,7 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
 
       const [err, res] = await client.updCandles(
           task.market,
-          symbol + ':' + task.timetype,
+          symbol + '|' + task.timetype,
           curtag,
           lst,
           4096,
@@ -157,6 +157,11 @@ function start(client, cfg, task) {
       if (task.symbol == 'index') {
         const lst = await getAllSecurities(retLogin, 'index');
         for (let i = 0; i < lst.length; ++i) {
+          const usret = await client.updSymbol('jqdata', lst[i]['code'], lst[i]['name'], lst[i]['display_name'], lst[i]['type']);
+          if (Array.isArray(usret)) {
+            logger.info('updSymbol ', usret);
+          }
+
           if (isValidSymbol(lst[i]['code'], task)) {
             const err = await startCandles(client, cfg, retLogin, lst[i]['code'], task);
             if (err) {

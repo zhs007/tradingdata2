@@ -104,6 +104,39 @@ class TradingDB2Client {
       }
     });
   }
+
+  /**
+   * updSymbol - updSymbol
+   * @param {string} market - market
+   * @param {string} symbol - symbol
+   * @param {string} name - name
+   * @param {string} fullname - fullname
+   * @param {string} type - type
+   * @return {Array} ret - [error, pb.ReplyUpdSymbol]
+   */
+  async updSymbol(market, symbol, name, fullname, type) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const bq = new BasicRequestData();
+        bq.setToken(this.token);
+
+        const req = new RequestUpdSymbol();
+
+        req.setMarket(market);
+        req.setSymbol(symbol);
+        req.setName(name);
+        req.setFullname(fullname);
+        req.setType(type);
+
+        req.setBasicrequest(bq);
+
+        const reply = this.client.updSymbol(req);
+        resolve([undefined, reply]);
+      } catch (err) {
+        resolve([err, undefined]);
+      }
+    });
+  }
 }
 
 exports.TradingDB2Client = TradingDB2Client;

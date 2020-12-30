@@ -7,8 +7,6 @@
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
-// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
@@ -2701,7 +2699,10 @@ proto.tradingpb.SymbolInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     market: jspb.Message.getFieldWithDefault(msg, 1, ""),
     symbol: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    fund: (f = msg.getFund()) && proto.tradingpb.Fund.toObject(includeInstance, f)
+    fund: (f = msg.getFund()) && proto.tradingpb.Fund.toObject(includeInstance, f),
+    name: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    fullname: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -2750,6 +2751,18 @@ proto.tradingpb.SymbolInfo.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.tradingpb.Fund;
       reader.readMessage(value,proto.tradingpb.Fund.deserializeBinaryFromReader);
       msg.setFund(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setName(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFullname(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setType(value);
       break;
     default:
       reader.skipField();
@@ -2800,6 +2813,27 @@ proto.tradingpb.SymbolInfo.serializeBinaryToWriter = function(message, writer) {
       3,
       f,
       proto.tradingpb.Fund.serializeBinaryToWriter
+    );
+  }
+  f = message.getName();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
+  f = message.getFullname();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getType();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
+      f
     );
   }
 };
@@ -2875,6 +2909,60 @@ proto.tradingpb.SymbolInfo.prototype.clearFund = function() {
  */
 proto.tradingpb.SymbolInfo.prototype.hasFund = function() {
   return jspb.Message.getField(this, 3) != null;
+};
+
+
+/**
+ * optional string name = 4;
+ * @return {string}
+ */
+proto.tradingpb.SymbolInfo.prototype.getName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tradingpb.SymbolInfo} returns this
+ */
+proto.tradingpb.SymbolInfo.prototype.setName = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional string fullname = 5;
+ * @return {string}
+ */
+proto.tradingpb.SymbolInfo.prototype.getFullname = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tradingpb.SymbolInfo} returns this
+ */
+proto.tradingpb.SymbolInfo.prototype.setFullname = function(value) {
+  return jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional string type = 6;
+ * @return {string}
+ */
+proto.tradingpb.SymbolInfo.prototype.getType = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tradingpb.SymbolInfo} returns this
+ */
+proto.tradingpb.SymbolInfo.prototype.setType = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
@@ -4835,7 +4923,10 @@ proto.tradingpb.RequestSimTrading.toObject = function(includeInstance, msg) {
     params: (f = msg.getParams()) && trading2_pb.SimTradingParams.toObject(includeInstance, f),
     ignorecache: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
     index: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    ignoretotalreturn: jspb.Message.getFloatingPointFieldWithDefault(msg, 5, 0.0)
+    ignoretotalreturn: jspb.Message.getFloatingPointFieldWithDefault(msg, 5, 0.0),
+    minnums: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    maxnums: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    sortby: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -4893,6 +4984,18 @@ proto.tradingpb.RequestSimTrading.deserializeBinaryFromReader = function(msg, re
     case 5:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setIgnoretotalreturn(value);
+      break;
+    case 6:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setMinnums(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setMaxnums(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSortby(value);
       break;
     default:
       reader.skipField();
@@ -4957,6 +5060,27 @@ proto.tradingpb.RequestSimTrading.serializeBinaryToWriter = function(message, wr
   if (f !== 0.0) {
     writer.writeFloat(
       5,
+      f
+    );
+  }
+  f = message.getMinnums();
+  if (f !== 0) {
+    writer.writeInt32(
+      6,
+      f
+    );
+  }
+  f = message.getMaxnums();
+  if (f !== 0) {
+    writer.writeInt32(
+      7,
+      f
+    );
+  }
+  f = message.getSortby();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
       f
     );
   }
@@ -5088,6 +5212,60 @@ proto.tradingpb.RequestSimTrading.prototype.getIgnoretotalreturn = function() {
  */
 proto.tradingpb.RequestSimTrading.prototype.setIgnoretotalreturn = function(value) {
   return jspb.Message.setProto3FloatField(this, 5, value);
+};
+
+
+/**
+ * optional int32 minNums = 6;
+ * @return {number}
+ */
+proto.tradingpb.RequestSimTrading.prototype.getMinnums = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.RequestSimTrading} returns this
+ */
+proto.tradingpb.RequestSimTrading.prototype.setMinnums = function(value) {
+  return jspb.Message.setProto3IntField(this, 6, value);
+};
+
+
+/**
+ * optional int32 maxNums = 7;
+ * @return {number}
+ */
+proto.tradingpb.RequestSimTrading.prototype.getMaxnums = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.tradingpb.RequestSimTrading} returns this
+ */
+proto.tradingpb.RequestSimTrading.prototype.setMaxnums = function(value) {
+  return jspb.Message.setProto3IntField(this, 7, value);
+};
+
+
+/**
+ * optional string sortBy = 8;
+ * @return {string}
+ */
+proto.tradingpb.RequestSimTrading.prototype.getSortby = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.tradingpb.RequestSimTrading} returns this
+ */
+proto.tradingpb.RequestSimTrading.prototype.setSortby = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
