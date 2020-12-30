@@ -86,7 +86,7 @@ function start(client, cfg, task) {
 
         const [err, res] = await client.updCandles(
             task.market,
-            task.symbol + ':' + task.timetype,
+            task.symbol + '|' + task.timetype,
             curtag,
             lst,
             4096,

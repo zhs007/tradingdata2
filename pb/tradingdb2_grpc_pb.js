@@ -130,6 +130,7 @@ function deserialize_tradingpb_RequestUpdSymbol(buffer_arg) {
 // TradingDB2 - TradingDB2 service
 var TradingDB2Service = exports.TradingDB2Service = {
   // updCandles - update candles
+//      这个接口现在是覆盖的，不会和原有数据做任何合并操作
 updCandles: {
     path: '/tradingpb.TradingDB2/updCandles',
     requestStream: true,

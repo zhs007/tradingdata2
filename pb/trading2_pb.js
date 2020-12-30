@@ -7,8 +7,6 @@
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
-// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
@@ -1750,10 +1748,8 @@ proto.tradingpb.CtrlCondition.deserializeBinaryFromReader = function(msg, reader
       msg.setIndicator(value);
       break;
     case 2:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addVals(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
+      msg.setValsList(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -1764,22 +1760,16 @@ proto.tradingpb.CtrlCondition.deserializeBinaryFromReader = function(msg, reader
       msg.setCombcondition(value);
       break;
     case 5:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addMinvals(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
+      msg.setMinvalsList(value);
       break;
     case 6:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addMaxvals(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
+      msg.setMaxvalsList(value);
       break;
     case 7:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addOffvals(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
+      msg.setOffvalsList(value);
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
@@ -2267,10 +2257,8 @@ proto.tradingpb.IndicatorData.deserializeBinaryFromReader = function(msg, reader
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedFloat() : [reader.readFloat()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addVals(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedFloat());
+      msg.setValsList(value);
       break;
     case 2:
       var value = /** @type {number} */ (reader.readInt64());
