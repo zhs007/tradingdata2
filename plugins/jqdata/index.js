@@ -49,6 +49,12 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
         task.tags[i].toString() + '-12-31', // It's like 2010
     );
 
+    if (candles == undefined) {
+      console.log('getPricePeriod nodata.', {tag: task.tags[i]});
+
+      return undefined;
+    }
+
     if (Array.isArray(candles)) {
       // console.log('getPricePeriod ok.', candles.length);
 
@@ -130,7 +136,9 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
           res.getLengthok(),
       );
     } else {
-      console.log('getPricePeriod nodata.', {tag: task.tags[i]});
+      console.log('getPricePeriod error.', {tag: task.tags[i], err: candles});
+
+      return candles;
     }
   }
 
@@ -158,8 +166,8 @@ function start(client, cfg, task) {
         const lst = await getAllSecurities(retLogin, 'index');
         for (let i = 0; i < lst.length; ++i) {
           const usret = await client.updSymbol('jqdata', lst[i]['code'], lst[i]['name'], lst[i]['display_name'], lst[i]['type']);
-          if (Array.isArray(usret)) {
-            logger.info('updSymbol ', usret);
+          if (Array.isArray(usret) && usret[0]) {
+            logger.error('updSymbol ', usret);
           }
 
           if (isValidSymbol(lst[i]['code'], task)) {

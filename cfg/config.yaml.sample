@@ -10,13 +10,13 @@ jqdata:
 
 tasks:
   - market: bitmex
-    symbol: btc
+    symbol: XBTUSD
     tags: ["202001"]
     timetype: 1m
   - market: bitmex
-    symbol: btc1
-    tags: ["202001"]
-    timetype: 1m
+    symbol: XBTUSD
+    tags: ["2020"]
+    timetype: 1d
   - market: jqdata
     symbol: index
     tags:
