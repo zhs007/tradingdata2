@@ -137,28 +137,30 @@ function start(client, cfg, task) {
           console.log('candles ok.', lst.length);
         }
 
-        const [err, res] = await client.updCandles(
-            task.market,
-            task.symbol + '|' + task.timetype,
-            curtag,
-            lst,
-            4096,
-        );
+        if (lst.length > 0) {
+          const [err, res] = await client.updCandles(
+              task.market,
+              task.symbol + '|' + task.timetype,
+              curtag,
+              lst,
+              4096,
+          );
 
-        if (err) {
-          reject(err);
+          if (err) {
+            reject(err);
 
-          return;
+            return;
+          }
+
+          console.log(
+              'updCandles',
+              task.market,
+              task.symbol,
+              curtag,
+              lst.length,
+              res.getLengthok(),
+          );
         }
-
-        console.log(
-            'updCandles',
-            task.market,
-            task.symbol,
-            curtag,
-            candles.length,
-            res.getLengthok(),
-        );
       }
 
       resolve();
