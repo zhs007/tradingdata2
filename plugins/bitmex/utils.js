@@ -2,6 +2,8 @@ const {request} = require('../../request');
 const dayjs = require('dayjs');
 const {sleep} = require('../../utils');
 
+// https://www.bitmex.com/api/explorer/
+
 const API_URL = 'https://www.bitmex.com/api/v1';
 
 /**
@@ -104,6 +106,59 @@ function getBucketedTradesMonth(symbol, month, timetype) {
   });
 }
 
+/**
+ * getBucketedTradesYear - Get previous trades in time buckets
+ * @param {string} symbol - symbol
+ * @param {string} year - year, it likes 2020
+ * @return {Promise} Promise - then(trades) catch(err)
+ */
+function getBucketedTradesYear(symbol, year) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const stt = year + '-01-01';
+      const ent = year + '-12-31';
+
+      const candles = [];
+      while (true) {
+        const res = await getBucketedTrades({
+          binSize: '1d',
+          partial: false,
+          symbol: symbol,
+          count: 1000,
+          start: candles.length,
+          reverse: false,
+          startTime: stt,
+          endTime: ent,
+        });
+
+        if (res && res.data && Array.isArray(res.data)) {
+          for (let i = 0; i < res.data.length; ++i) {
+            candles.push(res.data[i]);
+          }
+        }
+
+        await sleep(1500);
+
+        if (res.data.length == 0) {
+          break;
+        }
+      }
+
+      const lst = [];
+      for (let i = 0; i < candles.length; ++i) {
+        if (dayjs(candles[i].timestamp).format('YYYY') == year) {
+          lst.push(candles[i]);
+        }
+      }
+
+      resolve(lst);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
 exports.getBucketedTrades = getBucketedTrades;
 exports.getBucketedTradesDay = getBucketedTradesDay;
 exports.getBucketedTradesMonth = getBucketedTradesMonth;
+exports.getBucketedTradesYear = getBucketedTradesYear;
