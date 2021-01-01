@@ -66,14 +66,14 @@ function chgCandles12H(candles) {
     }
 
     const ft = dayjs.utc().unix(first.ts);
-    const ct = dayjs.utc().unix(first.ts);
+    const ct = dayjs.utc().unix(cur.ts);
 
     if (ft.year() == ct.year() && ft.month() == ct.month() && ft.date() == ct.date()) {
-      if (ct.hour() >= 12) {
-        return false;
+      if (ft.hour() < 12) {
+        return ct.hour() < 12;
       }
 
-      return true;
+      return ct.hour() >= 12;
     }
 
     return false;
