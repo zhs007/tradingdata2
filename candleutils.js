@@ -80,5 +80,34 @@ function chgCandles12H(candles) {
   });
 }
 
+/**
+ * chgCandles8H -
+ * @param {Array} candles - candles
+ * @return {Array} newCandles - newCandles
+ */
+function chgCandles8H(candles) {
+  return chgCandles(candles, (first, cur) => {
+    if (first == undefined) {
+      return false;
+    }
+
+    const ft = dayjs.utc().unix(first.ts);
+    const ct = dayjs.utc().unix(cur.ts);
+
+    if (ft.year() == ct.year() && ft.month() == ct.month() && ft.date() == ct.date()) {
+      if (ft.hour() < 8) {
+        return ct.hour() < 8;
+      } else if (ft.hour() < 16) {
+        return ct.hour() >= 8 && ct.hour() < 16;
+      } else {
+        return ct.hour() >= 16;
+      }
+    }
+
+    return false;
+  });
+}
+
 exports.chgCandles = chgCandles;
 exports.chgCandles12H = chgCandles12H;
+exports.chgCandles8H = chgCandles8H;
