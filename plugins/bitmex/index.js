@@ -28,11 +28,11 @@ function start(client, cfg, task) {
         let lst = [];
 
         if (task.timetype == '12h') {
-          lst = bitmex12h(client, cfg, task);
+          lst = bitmex12h(client, cfg, task, curtag);
 
           console.log('bitmex12h ok.', lst.length);
         } else if (task.timetype == '8h') {
-          lst = bitmex8h(client, cfg, task);
+          lst = bitmex8h(client, cfg, task, curtag);
 
           console.log('bitmex8h ok.', lst.length);
         } else if (task.timetype == '1d') {
