@@ -69,11 +69,21 @@ class TradingDB2Client {
    * @param {string} market - market
    * @param {string} symbol - symbol
    * @param {string} tag - tag
+   * @param {int} tsStart - tsStart
+   * @param {int} tsEnd - tsEnd
    * @return {Array} ret - [error, candles]
    */
-  getCandles(market, symbol, tag) {
+  getCandles(market, symbol, tag, tsStart, tsEnd) {
     return new Promise((resolve, reject) => {
       try {
+        if (tsStart == undefined) {
+          tsStart = 0;
+        }
+
+        if (tsEnd == undefined) {
+          tsEnd = -1;
+        }
+
         const bq = new BasicRequestData();
         bq.setToken(this.token);
 
@@ -83,6 +93,8 @@ class TradingDB2Client {
         req.setMarket(market);
         req.setSymbol(symbol);
         req.setTag(tag);
+        req.setTsstart(tsStart);
+        req.setTsend(tsEnd);
 
         req.setBasicrequest(bq);
 
