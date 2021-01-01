@@ -1,6 +1,6 @@
 {
   "name": "tradingdata2",
-  "version": "0.3.30",
+  "version": "0.3.31",
   "description": "",
   "main": "bin/start.js",
   "scripts": {
