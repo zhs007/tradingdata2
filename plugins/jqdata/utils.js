@@ -13,7 +13,7 @@ dayjs.extend(timezone);
 // https://dataapi.joinquant.com/docs
 
 const API_URL = 'https://dataapi.joinquant.com/apis';
-const TIMEZONE = 'Asia/Shanghai';
+// const TIMEZONE = 'Asia/Shanghai';
 
 /**
  * login - login jqdata
