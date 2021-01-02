@@ -108,6 +108,41 @@ function chgCandles8H(candles) {
   });
 }
 
+/**
+ * chgCandles4H -
+ * @param {Array} candles - candles
+ * @return {Array} newCandles - newCandles
+ */
+function chgCandles4H(candles) {
+  return chgCandles(candles, (first, cur) => {
+    if (first == undefined) {
+      return false;
+    }
+
+    const ft = dayjs.unix(first.ts);
+    const ct = dayjs.unix(cur.ts);
+
+    if (ft.year() == ct.year() && ft.month() == ct.month() && ft.date() == ct.date()) {
+      if (ft.hour() < 4) {
+        return ct.hour() < 4;
+      } else if (ft.hour() < 8) {
+        return ct.hour() >= 4 && ct.hour() < 8;
+      } else if (ft.hour() < 12) {
+        return ct.hour() >= 8 && ct.hour() < 12;
+      } else if (ft.hour() < 16) {
+        return ct.hour() >= 12 && ct.hour() < 16;
+      } else if (ft.hour() < 20) {
+        return ct.hour() >= 16 && ct.hour() < 20;
+      } else {
+        return ct.hour() >= 20;
+      }
+    }
+
+    return false;
+  });
+}
+
 exports.chgCandles = chgCandles;
 exports.chgCandles12H = chgCandles12H;
 exports.chgCandles8H = chgCandles8H;
+exports.chgCandles4H = chgCandles4H;

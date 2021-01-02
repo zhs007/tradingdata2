@@ -1,5 +1,5 @@
 const {getBucketedTradesMonth, getBucketedTradesYear} = require('./utils');
-const {bitmex12h, bitmex8h} = require('./candlesutils');
+const {bitmex12h, bitmex8h, bitmex4h} = require('./candlesutils');
 // const {TradingDB2Client} = require('../../tradingdb2.client');
 const {string2timestamp} = require('../../utils');
 
@@ -35,6 +35,10 @@ function start(client, cfg, task) {
           lst = await bitmex8h(client, cfg, task, curtag);
 
           console.log('bitmex8h ok.', lst.length);
+        } else if (task.timetype == '4h') {
+          lst = await bitmex4h(client, cfg, task, curtag);
+
+          console.log('bitmex4h ok.', lst.length);
         } else if (task.timetype == '1d') {
           const candles = await getBucketedTradesYear(
               task.symbol,
