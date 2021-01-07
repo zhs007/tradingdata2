@@ -1,5 +1,5 @@
 const {BasicRequestData} = require('./pb/trading2_pb');
-const {RequestUpdCandles, RequestGetCandles} = require('./pb/tradingdb2_pb');
+const {RequestUpdCandles, RequestGetCandles, RequestUpdSymbol, SymbolInfo} = require('./pb/tradingdb2_pb');
 const trdb2 = require('./pb/tradingdb2_grpc_pb');
 const {batchCandles, callSend, pbCandle2Cancle} = require('./pb.utils');
 
@@ -121,17 +121,20 @@ class TradingDB2Client {
         bq.setToken(this.token);
 
         const req = new RequestUpdSymbol();
+        const si = new SymbolInfo();
 
-        req.setMarket(market);
-        req.setSymbol(symbol);
-        req.setName(name);
-        req.setFullname(fullname);
-        req.setType(type);
+        si.setMarket(market);
+        si.setSymbol(symbol);
+        si.setName(name);
+        si.setFullname(fullname);
+        si.setType(type);
 
+        req.setSymbol(si);
         req.setBasicrequest(bq);
 
-        const reply = this.client.updSymbol(req);
-        resolve([undefined, reply]);
+        this.client.updSymbol(req, (err, reply) => {
+          resolve([err, reply]);
+        });
       } catch (err) {
         resolve([err, undefined]);
       }
