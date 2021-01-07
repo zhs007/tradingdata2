@@ -360,7 +360,7 @@ function checkCandle(candles, candle) {
 async function checkTask(client, cfg, task) {
   const symbol = parseSymbol(task.symbol);
 
-  const ret = await client.getCandles(task.market, symbol, '');
+  const ret = await client.getCandles(task.market, symbol + '|' + task.timetype, '');
   if (Array.isArray(ret) && ret[0] != undefined && Array.isArray(ret[1])) {
     let nums = 0;
 

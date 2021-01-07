@@ -1,6 +1,8 @@
 const {request} = require('../../request');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
 const {sleep} = require('../../utils');
+dayjs.extend(utc);
 
 // https://www.bitmex.com/api/explorer/
 
@@ -29,8 +31,8 @@ function getBucketedTrades(params) {
 function getBucketedTradesDay(symbol, day, timetype) {
   return new Promise(async (resolve, reject) => {
     try {
-      const stt = dayjs(day, 'YYYYMMDD').format('YYYY-MM-DD');
-      const ent = dayjs(day, 'YYYYMMDD').add(1, 'day').format('YYYY-MM-DD');
+      const stt = dayjs.utc(day, 'YYYYMMDD').format('YYYY-MM-DD');
+      const ent = dayjs.utc(day, 'YYYYMMDD').add(1, 'day').format('YYYY-MM-DD');
 
       const candles = [];
       while (true) {
@@ -60,7 +62,7 @@ function getBucketedTradesDay(symbol, day, timetype) {
 
       const lst = [];
       for (let i = 0; i < candles.length; ++i) {
-        if (dayjs(candles[i].timestamp).format('YYYYMMDD') == day) {
+        if (dayjs.utc(candles[i].timestamp).format('YYYYMMDD') == day) {
           lst.push(candles[i]);
         }
       }
@@ -82,7 +84,7 @@ function getBucketedTradesDay(symbol, day, timetype) {
 function getBucketedTradesMonth(symbol, month, timetype) {
   return new Promise(async (resolve, reject) => {
     try {
-      let strday = dayjs(month, 'YYYYMM').format('YYYYMMDD');
+      let strday = dayjs.utc(month, 'YYYYMM').format('YYYYMMDD');
 
       const candles = [];
       while (true) {
@@ -91,7 +93,7 @@ function getBucketedTradesMonth(symbol, month, timetype) {
           candles.push(lst[i]);
         }
 
-        const curday = dayjs(strday, 'YYYYMMDD').add(1, 'day');
+        const curday = dayjs.utc(strday, 'YYYYMMDD').add(1, 'day');
         if (curday.format('YYYYMM') != month) {
           break;
         }
@@ -146,7 +148,7 @@ function getBucketedTradesYear(symbol, year) {
 
       const lst = [];
       for (let i = 0; i < candles.length; ++i) {
-        if (dayjs(candles[i].timestamp).format('YYYY') == year) {
+        if (dayjs.utc(candles[i].timestamp).format('YYYY') == year) {
           lst.push(candles[i]);
         }
       }

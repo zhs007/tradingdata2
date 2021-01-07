@@ -1,4 +1,6 @@
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
 /**
  * awaitWrap - this is a wrap for await
@@ -53,7 +55,7 @@ function buildQueryString(url, params) {
  * @return {int} ts - timestamp
  */
 function string2timestamp(str) {
-  return dayjs(str).unix();
+  return dayjs.utc(str).unix();
 }
 
 /**
