@@ -173,12 +173,18 @@ function parseData(str) {
   for (let i = 1; i < arr.length; ++i) {
     const co = {};
 
-    const carr = arr[i].split(',');
-    for (let j = 0; j < harr.length && j < carr.length; ++j) {
-      co[harr[j]] = carr[j];
-    }
+    if (arr[i].length > 0) {
+      const carr = arr[i].split(',');
+      if (carr.length > 0) {
+        for (let j = 0; j < harr.length && j < carr.length; ++j) {
+          if (carr[j].length > 0) {
+            co[harr[j]] = carr[j];
+          }
+        }
 
-    lst.push(co);
+        lst.push(co);
+      }
+    }
   }
 
   return lst;
