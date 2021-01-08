@@ -53,7 +53,7 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
       console.log('getPricePeriod nodata.',
           {symbol: jqsymbol, tag: task.tags[i]});
 
-      return undefined;
+      continue;
     }
 
     if (Array.isArray(candles)) {
