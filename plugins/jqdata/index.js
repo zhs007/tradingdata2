@@ -50,7 +50,8 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
     );
 
     if (candles == undefined) {
-      console.log('getPricePeriod nodata.', {tag: task.tags[i]});
+      console.log('getPricePeriod nodata.',
+          {symbol: jqsymbol, tag: task.tags[i]});
 
       return undefined;
     }
@@ -109,7 +110,8 @@ async function startCandles(client, cfg, token, jqsymbol, task) {
         });
       }
 
-      console.log('candles ok.', lst.length);
+      console.log('candles ok.',
+          {symbol: jqsymbol, tag: task.tags[i], nums: lst.length});
 
       const curtag = task.tags[i];
 
