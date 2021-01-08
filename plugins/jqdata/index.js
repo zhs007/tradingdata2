@@ -162,8 +162,10 @@ function start(client, cfg, task) {
         return;
       }
 
-      if (task.symbol == 'index') {
-        const lst = await getAllSecurities(retLogin, 'index');
+      if (task.symbol == 'index' || task.symbol == 'etf' || task.symbol == 'open_fund' ||
+        task.symbol == 'bond_fund' || task.symbol == 'stock_fund' || task.symbol == 'QDII_fund' ||
+        task.symbol == 'mixture_fund' || task.symbol == 'stock' || task.symbol == 'options') {
+        const lst = await getAllSecurities(retLogin, task.symbol);
         for (let i = 0; i < lst.length; ++i) {
           const usret = await client.updSymbol('jqdata', lst[i]['code'], lst[i]['name'], lst[i]['display_name'], lst[i]['type']);
           if (Array.isArray(usret) && usret[0]) {
