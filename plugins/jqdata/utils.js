@@ -70,6 +70,12 @@ async function getAllSecurities(token, code) {
         'text',
     );
 
+    if (ret.data.indexOf('error:') >= 0) {
+      logger.info('jqdata.getAllSecurities error!', {ret: ret.data});
+
+      return new Error(ret.data);
+    }
+
     logger.info('jqdata.getAllSecurities ok!', {ret: ret.data});
 
     return parseData(ret.data);
