@@ -111,7 +111,7 @@ function requestPost(servURL, header, params) {
  */
 function requestEx(servurl, method, headers, params, data, responseType) {
   return new Promise((resolve, reject) => {
-    console.log('request', servurl, {headers: headers, params: params});
+    console.log('request', servurl, {headers: headers, params: params, data: data});
 
     axios({
       method: method,
