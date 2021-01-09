@@ -152,7 +152,7 @@ async function getPricePeriod(token, code, unit, startDate, endDate) {
       return new Error(ret.data);
     }
 
-    // logger.info('jqdata.getPricePeriod ok!', {ret: ret.data});
+    logger.info('jqdata.getPricePeriod ok!', {ret: ret.data});
 
     return parseData(ret.data);
   } catch (err) {
