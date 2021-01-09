@@ -168,6 +168,14 @@ function start(client, cfg, task) {
         task.symbol == 'bond_fund' || task.symbol == 'stock_fund' || task.symbol == 'QDII_fund' ||
         task.symbol == 'mixture_fund' || task.symbol == 'stock' || task.symbol == 'options') {
         const lst = await getAllSecurities(retLogin, task.symbol);
+        if (!Array.isArray(lst)) {
+          logger.error('getAllSecurities ', lst);
+
+          reject(lst);
+
+          return;
+        }
+
         for (let i = 0; i < lst.length; ++i) {
           const usret = await client.updSymbol('jqdata', lst[i]['code'], lst[i]['name'], lst[i]['display_name'], lst[i]['type']);
           if (Array.isArray(usret) && usret[0]) {
